@@ -6,4 +6,27 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Books\**" />
+    <Content Remove="Views\Books\**" />
+    <EmbeddedResource Remove="Views\Books\**" />
+    <None Remove="Views\Books\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Index\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Books\Create.cshtml" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,42 @@
+﻿@model List<Book>
+@{
+}
+
+<h1 class="text-center mb-5">List of Books</h1>
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn tbn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+    </div>
+    <div class="col">
+
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date of Publication</th>
+            <th>Author</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var book in Model)
+        {
+            <tr>
+                <td>@book.title</td>
+                <td>@book.publicationYear</td>
+                <td>@book.author</td>
+                @* <td><img src="/books/@book.ImageFileName" width="100" /></td> *@
+                <td style="white-space: nowrap">
+                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
