@@ -30,4 +30,8 @@
     <Content Include="Views\Books\Create.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Views\Books\Edit.cshtml" />
+  </ItemGroup>
+
 </Project>
