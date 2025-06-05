@@ -34,7 +34,8 @@
                 <td><img src="/books/@book.ImageFile" width="100" /></td>
                 <td style="white-space: nowrap">
                     <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
-                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" 
+                        asp-route-id="@book.Id" onclick="return confirm('are you sure?')">Delete</a>
                 </td>
             </tr>
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookDatabase.Models;
 using BookDatabase.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookDatabase.Controllers
 {
@@ -127,9 +128,27 @@ namespace BookDatabase.Controllers
             book.author = bookDto.author;
             book.ImageFileName = newFileName;
 
-            context.SaveChanges();
+            context.SaveChanges(true);
 
             return RedirectToAction("Index", "Books");
         }
+
+        public IActionResult Delete(int id)
+        {
+            var book = context.Books.Find(id);
+
+            if (book == null)
+            {
+                return RedirectToAction("Index", "Books");
+            }
+
+            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", book.ImageFileName);
+
+            System.IO.File.Delete(fullImagePath);
+            context.Books.Remove(book);
+            context.SaveChanges(true);
+            return RedirectToAction("Index", "Books");
+        }
+
     }
 }
