@@ -38,6 +38,12 @@ namespace BookDatabase.Controllers
             {
                 return View(bookDto);
             }
+
+            string imagesFolder = Path.Combine(environment.WebRootPath, "Images");
+            if (!Directory.Exists(imagesFolder))
+            {
+                Directory.CreateDirectory(imagesFolder);
+            }
            
 
             //Save the image file (revise this)
@@ -109,6 +115,13 @@ namespace BookDatabase.Controllers
             string newFileName = book.ImageFileName;
             if (bookDto.ImageFile != null)
             {
+
+                string imagesFolder = Path.Combine(environment.WebRootPath, "Images");
+                if (!Directory.Exists(imagesFolder))
+                {
+                    Directory.CreateDirectory(imagesFolder);
+                }
+
                 newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 newFileName += Path.GetExtension(bookDto.ImageFile!.FileName);
 
