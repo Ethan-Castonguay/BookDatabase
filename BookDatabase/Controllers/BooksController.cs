@@ -170,7 +170,20 @@ namespace BookDatabase.Controllers
 
             string fullImagePath = Path.Combine(environment.WebRootPath, "Images", book.ImageFileName);
 
-            System.IO.File.Delete(fullImagePath);
+            if (System.IO.File.Exists(fullImagePath))
+            {
+                try
+                {
+                    System.IO.File.SetAttributes(fullImagePath, FileAttributes.Normal); // In case it's read-only
+                    System.IO.File.Delete(fullImagePath);
+                    
+                }
+                catch (Exception ex)
+                {
+                    // Optional: log error or show message, but don't crash
+                    Console.WriteLine($"Could not delete old image: {ex.Message}");
+                }
+            }
             context.Books.Remove(book);
             context.SaveChanges(true);
             return RedirectToAction("Index", "Books");
