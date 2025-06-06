@@ -11,8 +11,7 @@ namespace BookDatabase.Models
         public int publicationYear { get; set; }
         [MaxLength(100)]
         public string author { get; set; } = "";
-        [NotMapped]
-        public string ImageFileName { get; set; } = "";
+        public string? ImageFileName { get; set; } = "";
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
     }
