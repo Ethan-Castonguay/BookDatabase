@@ -5,12 +5,32 @@
 <h1 class="text-center mb-5">List of Books</h1>
 <div class="row mb-5">
     <div class="col">
-        <a class="btn tbn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+        <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
     </div>
-    <div class="col">
+    <div class="col d-flex align-items-start justify-content-end">
+        <div class="position-relative">
+            <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">☰</p>
 
+            <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+                
+                    <h6 class="mb-2">Show only:</h6>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input id="optionOwned" type="radio" name="option" value="Owned" />
+                        <label for="optionOwned" class="mb-0">Owned books</label>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input id="optionNotOwned" type="radio" name="option" value="NotOwned" />
+                        <label for="optionNotOwned" class="mb-0">Books to buy</label>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input id="optionUnentered" type="radio" name="option" value="Unentered" />
+                        <label for="optionUnentered" class="mb-0">Books w/o status</label>
+                    </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 
 <table class="table">
@@ -31,6 +51,7 @@
             <tr>
                 <td>
                     <select name="status" id="status">
+                        <option value="" selected disabled hidden>Choose here</option>
                         <option value="owned">Owned</option>
                         <option value="notOwned">Want to buy</option>
                     </select>
@@ -48,3 +69,25 @@
         }
     </tbody>
 </table>
+
+
+<script>
+    const hamburgerMenu = document.getElementById("menu-toggle");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    hamburgerMenu.addEventListener("click", () => {
+        dropdownMenu.classList.toggle('d-none');
+    })
+
+    let selectedRadio = null;
+
+    document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
+        radio.addEventListener('click', function () {
+            if (selectedRadio === this) {
+                this.checked = false;
+                selectedRadio = null;
+            } else {
+                selectedRadio = this;
+            }
+        });
+    });
+</script>
