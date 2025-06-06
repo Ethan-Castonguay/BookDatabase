@@ -48,7 +48,8 @@
     <tbody>
         @foreach(var book in Model)
         {
-            <tr>
+            var status = book.Status ?? "Unentered";
+            <tr data-status="@status">
                 <td>
                     <select name="status" id="status">
                         <option value="" selected disabled hidden>Choose here</option>
@@ -82,12 +83,28 @@
 
     document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
         radio.addEventListener('click', function () {
+            const allRows = document.querySelectorAll("tbody tr");
+
             if (selectedRadio === this) {
                 this.checked = false;
                 selectedRadio = null;
-            } else {
-                selectedRadio = this;
+
+                allRows.forEach(row => row.classList.remove("d-none"));
+                return;
             }
+                selectedRadio = this;
+
+                const selectedValue = this.value;
+
+                // Hide all rows
+                allRows.forEach(row => row.classList.add("d-none"));
+
+                // Show only matching rows
+                allRows.forEach(row => {
+                    if (row.dataset.status === selectedValue) {
+                        row.classList.remove("d-none");
+                    }
+                });
         });
     });
 </script>

@@ -12,6 +12,7 @@ namespace BookDatabase.Models
         [MaxLength(100)]
         public string author { get; set; } = "";
         public string? ImageFileName { get; set; } = "";
+        public string Status { get; set; } = "Unentered";
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
     }
