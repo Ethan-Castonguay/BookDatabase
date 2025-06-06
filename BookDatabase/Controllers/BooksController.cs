@@ -115,26 +115,39 @@ namespace BookDatabase.Controllers
             string newFileName = book.ImageFileName;
             if (bookDto.ImageFile != null)
             {
-
                 string imagesFolder = Path.Combine(environment.WebRootPath, "Images");
+
                 if (!Directory.Exists(imagesFolder))
                 {
                     Directory.CreateDirectory(imagesFolder);
                 }
 
-                newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                newFileName += Path.GetExtension(bookDto.ImageFile!.FileName);
+                // Save new image
+                newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(bookDto.ImageFile.FileName);
+                string imageFullPath = Path.Combine(imagesFolder, newFileName);
 
-                string imageFullPath = Path.Combine(environment.WebRootPath, "Images", newFileName);
-                using (var stream = System.IO.File.Create(imageFullPath))
+                using (var stream = new FileStream(imageFullPath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     bookDto.ImageFile.CopyTo(stream);
                 }
 
-                string oldImagePath = Path.Combine(environment.WebRootPath, "Images", book.ImageFileName);
-
-                System.IO.File.Delete(oldImagePath);
+                // Safely delete old image
+                string oldImagePath = Path.Combine(imagesFolder, book.ImageFileName);
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    try
+                    {
+                        System.IO.File.SetAttributes(oldImagePath, FileAttributes.Normal); // In case it's read-only
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Optional: log error or show message, but don't crash
+                        Console.WriteLine($"Could not delete old image: {ex.Message}");
+                    }
+                }
             }
+
 
             book.title = bookDto.title;
             book.publicationYear = bookDto.publicationYear;
