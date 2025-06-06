@@ -16,6 +16,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Status</th>
             <th>Title</th>
             <th>Date of Publication</th>
             <th>Author</th>
@@ -28,6 +29,12 @@
         @foreach(var book in Model)
         {
             <tr>
+                <td>
+                    <select name="status" id="status">
+                        <option value="owned">Owned</option>
+                        <option value="notOwned">Want to buy</option>
+                    </select>
+                </td>
                 <td>@book.title</td>
                 <td>@book.publicationYear</td>
                 <td>@book.author</td>
