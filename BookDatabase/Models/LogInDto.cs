@@ -4,6 +4,7 @@ namespace BookDatabase.Models
 {
     public class LogInDto
     {
+        [EmailAddress]
         public string email { get; set; } = "";
         [Required]
         [MaxLength(30)]

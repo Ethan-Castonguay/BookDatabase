@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BookDatabase.Models;
+﻿using BookDatabase.Models;
 using BookDatabase.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookDatabase.Controllers
 {
     public class AccountController : Controller
     {
+
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -18,18 +29,44 @@ namespace BookDatabase.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(SignUpDto signUpDto)
+        public async Task<IActionResult> SignUp(SignUpDto signUpDto)
         {
-            User user = new User()
+            if (!ModelState.IsValid)
             {
-                firstName = signUpDto.firstName,
-                lastName = signUpDto.lastName,
-                email = signUpDto.email,
-                phone = signUpDto.phone,
-                password = signUpDto.password,
+                return View(signUpDto);
+            }
+
+            if (signUpDto.password != signUpDto.secondAttemptPassword)
+            {
+                ModelState.AddModelError("Password", "Passwords do not match.");
+                return View(signUpDto);
+            }
+
+            var user = new IdentityUser
+            {
+                UserName = signUpDto.email,
+                Email = signUpDto.email,
+                PhoneNumber = signUpDto.phone
             };
 
-            return RedirectToAction("Index", "Home");
+            var result = await _userManager.CreateAsync(user, signUpDto.password);
+
+            //this doesn't happen
+            if (result.Succeeded)
+            {
+                Console.WriteLine("This works 4");
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                //yes (2 times)
+                Console.WriteLine("This works 5");
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(signUpDto);
         }
 
         public IActionResult LogIn()
@@ -38,15 +75,24 @@ namespace BookDatabase.Controllers
         }
 
         [HttpPost]
-        public IActionResult LogIn(LogInDto logInDto)
+        public async Task<IActionResult> LogIn(LogInDto logInDto)
         {
-            User user = new User()
+            if (!ModelState.IsValid)
             {
-                email = logInDto.email,
-                password = logInDto.password,
-            };
+                return View(logInDto);
+            }
 
-            return RedirectToAction("Index", "Home");
+            var result = await _signInManager.PasswordSignInAsync(logInDto.email, logInDto.password, false, false);
+
+            if (result.Succeeded)
+            {
+                Console.WriteLine("AC86");
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return View(logInDto);
         }
+
     }
 }
