@@ -1,0 +1,40 @@
+﻿@model LogInDto
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">Log In</h2>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Email Address</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" asp-for="email">
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Password</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control" asp-for="password">
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="offset-sm-4 col-sm-4 d-grid">
+                <p>Don't have an account? <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="offset-sm-4 col-sm-4 d-grid">
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </div>
+            <div class="col-sm-4 d-grid">
+                <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

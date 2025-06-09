@@ -46,7 +46,7 @@ namespace BookDatabase.Controllers
             }
            
 
-            //Save the image file (revise this)
+            //Save the image file
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             newFileName += Path.GetExtension(bookDto.ImageFile!.FileName);
 
