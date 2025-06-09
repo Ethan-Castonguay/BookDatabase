@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+//Iwantacheeseburger@gmail.com
+//Shaymin1!
+
 namespace BookDatabase.Controllers
 {
     public class AccountController : Controller
@@ -51,18 +54,14 @@ namespace BookDatabase.Controllers
 
             var result = await _userManager.CreateAsync(user, signUpDto.password);
 
-            //this doesn't happen
             if (result.Succeeded)
             {
-                Console.WriteLine("This works 4");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in result.Errors)
             {
-                //yes (2 times)
-                Console.WriteLine("This works 5");
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
@@ -82,11 +81,17 @@ namespace BookDatabase.Controllers
                 return View(logInDto);
             }
 
+            var user = await _userManager.FindByEmailAsync(logInDto.email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "No account found with this email.");
+                return View(logInDto);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(logInDto.email, logInDto.password, false, false);
 
             if (result.Succeeded)
             {
-                Console.WriteLine("AC86");
                 return RedirectToAction("Index", "Home");
             }
 
