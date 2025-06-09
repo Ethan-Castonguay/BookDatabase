@@ -10,6 +10,7 @@ namespace BookDatabase.Models
         public int publicationYear { get; set; }
         [Required, MaxLength(100)]
         public string author { get; set; } = "";
+        public string Status { get; set; } = "Unentered";
         public IFormFile? ImageFile { get; set; }
     }
 }

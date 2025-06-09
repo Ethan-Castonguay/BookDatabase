@@ -61,6 +61,7 @@ namespace BookDatabase.Controllers
                 title = bookDto.title,
                 publicationYear = bookDto.publicationYear,
                 author = bookDto.author,
+                Status = bookDto.Status,
                 ImageFileName = newFileName,
 
             };
@@ -85,7 +86,7 @@ namespace BookDatabase.Controllers
                 title = book.title,
                 publicationYear = book.publicationYear,
                 author = book.author,
-
+                Status = book.Status
             };
 
             ViewData["BookId"] = book.Id;
@@ -113,6 +114,7 @@ namespace BookDatabase.Controllers
             }
 
             string newFileName = book.ImageFileName;
+
             if (bookDto.ImageFile != null)
             {
                 string imagesFolder = Path.Combine(environment.WebRootPath, "Images");
@@ -153,6 +155,7 @@ namespace BookDatabase.Controllers
             book.publicationYear = bookDto.publicationYear;
             book.author = bookDto.author;
             book.ImageFileName = newFileName;
+            book.Status = bookDto.Status;
 
             context.SaveChanges(true);
 
