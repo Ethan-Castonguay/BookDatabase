@@ -47,7 +47,7 @@ namespace BookDatabase.Controllers
 
             var user = new IdentityUser
             {
-                UserName = (signUpDto.firstName + " " + signUpDto.lastName),
+                UserName = (signUpDto.firstName + signUpDto.lastName),
                 Email = signUpDto.email,
                 PhoneNumber = signUpDto.phone
             };
@@ -58,14 +58,16 @@ namespace BookDatabase.Controllers
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
-            }
-
-            foreach (var error in result.Errors)
+            } else
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(signUpDto);
             }
 
-            return View(signUpDto);
+            //return View(signUpDto);
         }
 
         public IActionResult LogIn()

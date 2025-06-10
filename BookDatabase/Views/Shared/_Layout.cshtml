@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,21 +22,21 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a id="home-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                            <a id="books-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a id="privacy-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                         <ul class="navbar-nav ms-auto d-flex align-items-center">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                                <a id="signup-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
+                                <a id="login-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
                             </li>
                             <li>
                                 <div class="position-relative">
@@ -43,10 +44,10 @@
 
                                         <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
 
-                                            <h6 class="mb-2">Hello @User.Identity?.Name</h6>
+                                    <h6 class="mb-2">Hello, @User.Identity?.Name</h6>
                                             <div class="d-flex align-items-center gap-2 mb-2">
                                                 <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                                            <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
+                                                    <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -88,9 +89,12 @@
 
 <script>
     const isAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+
     const accountMenu = document.getElementById("accountMenuButton");
     const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");
-    const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu")
+    const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu");
+
+    const shinyButtons = document.getElementsByClassName("shiny-button");
     
     accountMenu.addEventListener("click", () => {
         if (isAuthenticated) {
@@ -99,4 +103,17 @@
             loggedOutDropdownMenu.classList.toggle('d-none');
         }
     })
+
+    Array.from(shinyButtons).forEach((button) =>{
+        button.addEventListener("mouseover", () => {
+            button.classList.remove("text-dark");
+            button.style.color = 'deepskyblue';
+            button.style.textDecoration = 'underline';
+        })
+        button.addEventListener("mouseout", () => {
+            button.classList.add("text-dark");
+            button.style.textDecoration = '';
+        })
+    })
+    
 </script>
