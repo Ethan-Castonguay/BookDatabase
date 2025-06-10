@@ -2,6 +2,7 @@
 using BookDatabase.Models;
 using BookDatabase.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookDatabase.Controllers
 {
@@ -9,15 +10,18 @@ namespace BookDatabase.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IWebHostEnvironment environment;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public BooksController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public BooksController(ApplicationDbContext context, IWebHostEnvironment environment, UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.environment = environment;
+            this.userManager = userManager;
         }
         public IActionResult Index()
         {
-            var books = context.Books.OrderByDescending(p => p.Id).ToList();
+            var userId = userManager.GetUserId(User);
+            var books = context.Books.Where(b => b.UserId == userId).OrderByDescending(p => p.Id).ToList();
             return View(books);
         }
 
@@ -56,6 +60,8 @@ namespace BookDatabase.Controllers
                 bookDto.ImageFile.CopyTo(stream);
             }
 
+            var userId = userManager.GetUserId(User);
+
             Book book = new Book()
             {
                 title = bookDto.title,
@@ -63,7 +69,7 @@ namespace BookDatabase.Controllers
                 author = bookDto.author,
                 Status = bookDto.Status,
                 ImageFileName = newFileName,
-
+                UserId = userId
             };
 
             context.Books.Add(book);
@@ -74,7 +80,8 @@ namespace BookDatabase.Controllers
 
         public IActionResult Edit(int id)
         {
-            var book = context.Books.Find(id);
+            var userId = userManager.GetUserId(User);
+            var book = context.Books.FirstOrDefault(b => b.Id == id && b.UserId == userId);
 
             if (book == null)
             {
@@ -94,6 +101,7 @@ namespace BookDatabase.Controllers
 
             return View(bookDto);
         }
+
 
         [HttpPost]
         public IActionResult Edit(int id, BookDto bookDto)
@@ -164,7 +172,8 @@ namespace BookDatabase.Controllers
 
         public IActionResult Delete(int id)
         {
-            var book = context.Books.Find(id);
+            var userId = userManager.GetUserId(User);
+            var book = context.Books.FirstOrDefault(b => b.Id == id && b.UserId == userId);
 
             if (book == null)
             {
@@ -177,20 +186,21 @@ namespace BookDatabase.Controllers
             {
                 try
                 {
-                    System.IO.File.SetAttributes(fullImagePath, FileAttributes.Normal); // In case it's read-only
+                    System.IO.File.SetAttributes(fullImagePath, FileAttributes.Normal);
                     System.IO.File.Delete(fullImagePath);
-                    
                 }
                 catch (Exception ex)
                 {
-                    // Optional: log error or show message, but don't crash
                     Console.WriteLine($"Could not delete old image: {ex.Message}");
                 }
             }
+
             context.Books.Remove(book);
             context.SaveChanges(true);
+
             return RedirectToAction("Index", "Books");
         }
+
 
     }
 }
