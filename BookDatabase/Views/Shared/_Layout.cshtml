@@ -29,13 +29,37 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
-                        </li>
                     </ul>
+                        <ul class="navbar-nav ms-auto d-flex align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
+                            </li>
+                            <li>
+                                <div class="position-relative">
+                                    <img id="accountMenuButton" src="~/Images/AnonymousProfilePicture.webp" width="65px;" style="cursor:pointer;"/>
+
+                                        <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
+
+                                            <h6 class="mb-2">Hello @User.Identity?.Name</h6>
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                            <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="account-loggedout-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
+
+                                            <h6 class="mb-2">No account found</h6>
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <p>Try <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="LogIn">Logging In</a></p>
+                                            </div>
+                                        </div>
+                                </div>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </nav>
@@ -62,3 +86,17 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
+<script>
+    const isAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+    const accountMenu = document.getElementById("accountMenuButton");
+    const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");
+    const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu")
+    
+    accountMenu.addEventListener("click", () => {
+        if (isAuthenticated) {
+            loggedInDropdownMenu.classList.toggle('d-none');
+        } else {
+            loggedOutDropdownMenu.classList.toggle('d-none');
+        }
+    })
+</script>

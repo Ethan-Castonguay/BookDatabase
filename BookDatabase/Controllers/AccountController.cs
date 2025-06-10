@@ -47,7 +47,7 @@ namespace BookDatabase.Controllers
 
             var user = new IdentityUser
             {
-                UserName = signUpDto.email,
+                UserName = (signUpDto.firstName + " " + signUpDto.lastName),
                 Email = signUpDto.email,
                 PhoneNumber = signUpDto.phone
             };
@@ -97,6 +97,14 @@ namespace BookDatabase.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(logInDto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
     }
