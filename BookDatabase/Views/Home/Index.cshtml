@@ -3,4 +3,123 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Go back to the home page.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Haven</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        header {
+            background-color: #4b2e83;
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 2.5rem;
+            }
+
+        nav {
+            margin-top: 0.5rem;
+        }
+
+            nav a {
+                color: #ddd;
+                margin: 0 1rem;
+                text-decoration: none;
+                font-size: 1.1rem;
+            }
+
+                nav a:hover {
+                    color: white;
+                }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1512820790803-83ca734da794') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+            .hero h2 {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .featured {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+            .featured h3 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .book {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+            .book img {
+                width: 100%;
+                height: auto;
+                border-radius: 4px;
+            }
+
+            .book h4 {
+                margin: 0.5rem 0 0.3rem;
+                font-size: 1.1rem;
+            }
+
+            .book p {
+                font-size: 0.9rem;
+                color: #555;
+            }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h2>Welcome to MyBookDatabase</h2>
+        <p>Organize your reading list and wish list</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Book Haven. All rights reserved.</p>
+    </footer>
+</body>
+</html>
