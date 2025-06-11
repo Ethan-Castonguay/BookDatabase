@@ -86,7 +86,7 @@ namespace BookDatabase.Controllers
             }
 
             //(username, password, isPersistent(put true if you have a 'remember me' checkbox), lockoutOnFailure(put true if you want users to be punished for failed login attempts)
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, logInDto.password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName!, logInDto.password, false, false);
 
             if (result.Succeeded)
             {

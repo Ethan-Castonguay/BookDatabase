@@ -47,7 +47,8 @@
                         </li>
                         <li>
                             <div class="position-relative">
-                                <img id="accountMenuButton" src="~/Images/AnonymousProfilePicture.webp" width="65px;" style="cursor:pointer;"/>
+                                <img id="accountMenuButton" src="~/Images/AnonymousProfilePicture.jpg" width="65px;" style="cursor:pointer;"/>
+                                <img id="darkModeToggle" src="~/Images/DarkModeToggleImg.png" width="65px;" style="cursor:pointer;"/>
 
                                 <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
 
@@ -98,16 +99,41 @@
     const isAuthenticated = @User.Identity!.IsAuthenticated.ToString().ToLower();
 
     const accountMenu = document.getElementById("accountMenuButton");
+    const darkModeButton = document.getElementById("darkModeToggle");
+    let isRotated = false
+
     const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");
     const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu");
 
     const shinyButtons = document.getElementsByClassName("shiny-button");
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    })
 
     accountMenu.addEventListener("click", () => {
         if (isAuthenticated) {
             loggedInDropdownMenu.classList.toggle('d-none');
         } else {
             loggedOutDropdownMenu.classList.toggle('d-none');
+        }
+    })
+
+    darkModeButton.addEventListener("click", () => {
+        isRotated = !isRotated;
+        darkModeButton.style.transition = 'transform 0.5s ease-in-out';
+        darkModeButton.style.transform = isRotated ? 'rotate(180deg)' : 'rotate(0deg)';
+
+        document.body.classList.toggle('dark-mode');
+
+        // Optional: persist preference to localStorage
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
         }
     })
 
