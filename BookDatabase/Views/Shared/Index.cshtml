@@ -6,6 +6,7 @@
     <div class="row mb-5">
         <div class="col">
             <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+            <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 35px;"/>
         </div>
         <div class="col d-flex align-items-start justify-content-end">
             <div class="position-relative">
@@ -49,7 +50,9 @@
             @foreach(var book in Model)
             {
                 var status = book.Status ?? "Unentered";
-                <tr data-status="@status">
+                var title = book.title ?? "";
+                var author = book.author ?? "";
+                <tr data-status="@status" data-title="@title" data-author="@author">
                     <td>@book.Status</td>
                     <td>@book.title</td>
                     <td>@book.publicationYear</td>
@@ -69,6 +72,10 @@
 
 
 <script>
+    const searchbar = document.getElementById("book-searchbar");
+
+    const allRows = document.querySelectorAll("tbody tr");
+     
     const hamburgerMenu = document.getElementById("menu-toggle");
     const dropdownMenu = document.getElementById("dropdown-menu");
     hamburgerMenu.addEventListener("click", () => {
@@ -79,7 +86,6 @@
 
     document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
         radio.addEventListener('click', function () {
-            const allRows = document.querySelectorAll("tbody tr");
 
             if (selectedRadio === this) {
                 this.checked = false;
@@ -88,21 +94,35 @@
                 allRows.forEach(row => row.classList.remove("d-none"));
                 return;
             }
-                selectedRadio = this;
+            selectedRadio = this;
 
-                const selectedValue = this.value;
+            const selectedValue = this.value;
 
-                // Hide all rows
-                allRows.forEach(row => {
-                    row.classList.add("d-none");
-                })
+            // Hide all rows
+            allRows.forEach(row => {
+                row.classList.add("d-none");
+            })
 
-                // Show only matching rows
-                allRows.forEach(row => {
-                    if (row.dataset.status === selectedValue) {
-                        row.classList.remove("d-none");
-                    }
-                });
+            // Show only matching rows
+            allRows.forEach(row => {
+                if (row.dataset.status === selectedValue) {
+                    row.classList.remove("d-none");
+                }
+            });
         });
     });
+
+    searchbar.addEventListener("keyup", () => {
+        allRows.forEach(row => {
+            row.classList.add("d-none");
+
+            if (row.dataset.title.includes(searchbar.value) || row.dataset.author.includes(searchbar.value)){
+                row.classList.remove("d-none");
+            }
+
+            if (searchbar.value == ""){
+                row.classList.remove("d-none");
+            }
+        })
+    })
 </script>
