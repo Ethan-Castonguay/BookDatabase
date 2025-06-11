@@ -78,8 +78,13 @@
      
     const hamburgerMenu = document.getElementById("menu-toggle");
     const dropdownMenu = document.getElementById("dropdown-menu");
+    let isBurgerRotated = false;
+
     hamburgerMenu.addEventListener("click", () => {
         dropdownMenu.classList.toggle('d-none');
+        isBurgerRotated = !isBurgerRotated;
+        hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+        hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
     })
 
     let selectedRadio = null;
