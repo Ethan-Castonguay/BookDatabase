@@ -55,6 +55,7 @@ namespace BookDatabase.Controllers
             newFileName += Path.GetExtension(bookDto.ImageFile!.FileName);
 
             string imageFullPath = Path.Combine(environment.WebRootPath, "Images", newFileName);
+            //stream is the path to the image, then copy the image file from bookDto at the path
             using (var stream = System.IO.File.Create(imageFullPath))
             {
                 bookDto.ImageFile.CopyTo(stream);
@@ -81,6 +82,7 @@ namespace BookDatabase.Controllers
         public IActionResult Edit(int id)
         {
             var userId = userManager.GetUserId(User);
+            //in the Books table, find the match or return null, the book must have the correct id and the users id must match the one logged in right now
             var book = context.Books.FirstOrDefault(b => b.Id == id && b.UserId == userId);
 
             if (book == null)
@@ -200,7 +202,5 @@ namespace BookDatabase.Controllers
 
             return RedirectToAction("Index", "Books");
         }
-
-
     }
 }

@@ -1,69 +1,71 @@
 ﻿@model List<Book>
 @{
 }
+<div id="logged-in-table">
+    <h1 class="text-center mb-5">List of Books</h1>
+    <div class="row mb-5">
+        <div class="col">
+            <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+        </div>
+        <div class="col d-flex align-items-start justify-content-end">
+            <div class="position-relative">
+                <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">☰</p>
 
-<h1 class="text-center mb-5">List of Books</h1>
-<div class="row mb-5">
-    <div class="col">
-        <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
-    </div>
-    <div class="col d-flex align-items-start justify-content-end">
-        <div class="position-relative">
-            <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">☰</p>
-
-            <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+                <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
                 
-                    <h6 class="mb-2">Show only:</h6>
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <input id="optionOwned" type="radio" name="option" value="Owned" />
-                        <label for="optionOwned" class="mb-0">Owned books</label>
-                    </div>
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <input id="optionNotOwned" type="radio" name="option" value="Not-Owned" />
-                        <label for="optionNotOwned" class="mb-0">Books to buy</label>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <input id="optionUnentered" type="radio" name="option" value="Unentered" />
-                        <label for="optionUnentered" class="mb-0">Books w/o status</label>
-                    </div>
+                        <h6 class="mb-2">Show only:</h6>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <input id="optionOwned" type="radio" name="option" value="Owned" />
+                            <label for="optionOwned" class="mb-0">Owned books</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <input id="optionNotOwned" type="radio" name="option" value="Not-Owned" />
+                            <label for="optionNotOwned" class="mb-0">Books to buy</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionUnentered" type="radio" name="option" value="Unentered" />
+                            <label for="optionUnentered" class="mb-0">Books w/o status</label>
+                        </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Title</th>
+                <th>Date of Publication</th>
+                <th>Author</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var book in Model)
+            {
+                var status = book.Status ?? "Unentered";
+                <tr data-status="@status">
+                    <td>@book.Status</td>
+                    <td>@book.title</td>
+                    <td>@book.publicationYear</td>
+                    <td>@book.author</td>
+                    <td><img src="~/Images/@book.ImageFileName" width="100" /></td>
+                    <td style="white-space: nowrap">
+                        <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" 
+                            asp-route-id="@book.Id" onclick="return confirm('are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Status</th>
-            <th>Title</th>
-            <th>Date of Publication</th>
-            <th>Author</th>
-            <th>Image</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach(var book in Model)
-        {
-            var status = book.Status ?? "Unentered";
-            <tr data-status="@status">
-                <td>@book.Status</td>
-                <td>@book.title</td>
-                <td>@book.publicationYear</td>
-                <td>@book.author</td>
-                <td><img src="~/Images/@book.ImageFileName" width="100" /></td>
-                <td style="white-space: nowrap">
-                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
-                    <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" 
-                        asp-route-id="@book.Id" onclick="return confirm('are you sure?')">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 
 <script>

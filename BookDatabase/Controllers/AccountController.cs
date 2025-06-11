@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-//Iwantacheeseburger@gmail.com
-//Shaymin1!
-
 namespace BookDatabase.Controllers
 {
     public class AccountController : Controller
@@ -66,8 +63,6 @@ namespace BookDatabase.Controllers
                 }
                 return View(signUpDto);
             }
-
-            //return View(signUpDto);
         }
 
         public IActionResult LogIn()
@@ -90,7 +85,8 @@ namespace BookDatabase.Controllers
                 return View(logInDto);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(logInDto.email, logInDto.password, false, false);
+            //(username, password, isPersistent(put true if you have a 'remember me' checkbox), lockoutOnFailure(put true if you want users to be punished for failed login attempts)
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, logInDto.password, false, false);
 
             if (result.Succeeded)
             {
