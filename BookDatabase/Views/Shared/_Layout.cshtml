@@ -95,7 +95,7 @@
 </html>
 
 <script>
-    const isAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+    const isAuthenticated = @User.Identity!.IsAuthenticated.ToString().ToLower();
 
     const accountMenu = document.getElementById("accountMenuButton");
     const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");

@@ -18,6 +18,7 @@ namespace BookDatabase.Controllers
             this.environment = environment;
             this.userManager = userManager;
         }
+
         public IActionResult Index()
         {
             var userId = userManager.GetUserId(User);
@@ -70,7 +71,7 @@ namespace BookDatabase.Controllers
                 author = bookDto.author,
                 Status = bookDto.Status,
                 ImageFileName = newFileName,
-                UserId = userId
+                UserId = userId!
             };
 
             context.Books.Add(book);
@@ -123,7 +124,7 @@ namespace BookDatabase.Controllers
                 return View(bookDto);
             }
 
-            string newFileName = book.ImageFileName;
+            string newFileName = book.ImageFileName!;
 
             if (bookDto.ImageFile != null)
             {
@@ -144,7 +145,7 @@ namespace BookDatabase.Controllers
                 }
 
                 // Safely delete old image
-                string oldImagePath = Path.Combine(imagesFolder, book.ImageFileName);
+                string oldImagePath = Path.Combine(imagesFolder, book.ImageFileName!);
                 if (System.IO.File.Exists(oldImagePath))
                 {
                     try
@@ -182,7 +183,7 @@ namespace BookDatabase.Controllers
                 return RedirectToAction("Index", "Books");
             }
 
-            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", book.ImageFileName);
+            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", book.ImageFileName!);
 
             if (System.IO.File.Exists(fullImagePath))
             {
