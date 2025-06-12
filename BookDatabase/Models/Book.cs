@@ -22,11 +22,11 @@ namespace BookDatabase.Models
 
         public string genre { get; set; } = "";
 
-        public string Completion { get; set; } = "Want to read";
+        public string? Completion { get; set; }
 
-        public int starRating { get; set; }
+        public int? starRating { get; set; }
 
-        public string review { get; set; } = "";
+        public string? review { get; set; }
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
