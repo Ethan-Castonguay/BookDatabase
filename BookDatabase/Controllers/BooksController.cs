@@ -163,7 +163,7 @@ namespace BookDatabase.Controllers
                     }
                     catch (Exception ex)
                     {
-                        // Optional: log error or show message, but don't crash
+                        // Log error or show message, but don't crash
                         Console.WriteLine($"Could not delete old image: {ex.Message}");
                     }
                 }
