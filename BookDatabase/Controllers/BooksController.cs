@@ -70,6 +70,10 @@ namespace BookDatabase.Controllers
                 publicationYear = bookDto.publicationYear,
                 author = bookDto.author,
                 Status = bookDto.Status,
+                genre = bookDto.genre,
+                Completion = bookDto.Completion,
+                starRating = bookDto.starRating,
+                review = bookDto.review,
                 ImageFileName = newFileName,
                 UserId = userId!
             };
@@ -96,7 +100,11 @@ namespace BookDatabase.Controllers
                 title = book.title,
                 publicationYear = book.publicationYear,
                 author = book.author,
-                Status = book.Status
+                Status = book.Status,
+                genre = book.genre,
+                Completion = book.Completion,
+                starRating = book.starRating,
+                review = book.review
             };
 
             ViewData["BookId"] = book.Id;
@@ -167,6 +175,10 @@ namespace BookDatabase.Controllers
             book.author = bookDto.author;
             book.ImageFileName = newFileName;
             book.Status = bookDto.Status;
+            book.genre = bookDto.genre;
+            book.Completion = bookDto.Completion;
+            book.starRating = bookDto.starRating;
+            book.review = bookDto.review;
 
             context.SaveChanges(true);
 
