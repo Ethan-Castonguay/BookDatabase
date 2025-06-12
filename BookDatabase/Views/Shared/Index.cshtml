@@ -1,6 +1,23 @@
 ﻿@model List<Book>
 @{
 }
+
+<head>
+    <style>
+        #book-searchbar {
+            border-radius: 5px;
+        }
+
+        #book-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
 <div id="logged-in-table">
     <h1 class="text-center mb-5">List of Books</h1>
     <div class="row mb-5">
@@ -34,7 +51,7 @@
 
 
 
-    <table class="table">
+    <table id="book-table" class="table rounded">
         <thead>
             <tr>
                 <th>Status</th>
