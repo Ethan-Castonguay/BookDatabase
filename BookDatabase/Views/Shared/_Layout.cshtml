@@ -48,29 +48,32 @@
                         <li class="nav-item">
                             <a id="signup-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="SignUp">Sign Up</a>
                         </li>
-                        <li class="nav-item">
-                            <a id="login-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
-                        </li>
+                        @if (!User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item">
+                                <a id="login-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
+                            </li>
+                        }
                         <li>
                             <div class="position-relative">
-                                <img id="accountMenuButton" src="~/Images/AnonymousProfilePicture-modified.png" width="65px;" style="cursor:pointer;"/>
+                                <img id="accountMenuButton" class="user-menu" src="~/Images/AnonymousProfilePicture-modified.png" width="65px;" style="cursor:pointer;"/>
                                 <img id="darkModeToggle" src="~/Images/DarkModeToggleImg-modified.png" width="65px;" style="cursor:pointer;" title="Dark mode toggle"/>
 
-                                <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
+                                <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
 
-                                    <h6 class="mb-2">Hello, @User.Identity?.Name</h6>
-                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h6 class="mb-2 user-menu">Hello, @User.Identity?.Name</h6>
+                                    <div class="d-flex align-items-center gap-2 mb-2 user-menu">
                                         <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
                                         </form>
                                     </div>
                                 </div>
-                                <div id="account-loggedout-dropdown-menu" class="card p-3 d-none position-absolute" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
+                                <div id="account-loggedout-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
 
-                                    <h6 class="mb-2">No account found</h6>
-                                    <div class="d-flex align-items-center gap-2 mb-2">
-                                        <p>Try <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="LogIn">Logging In</a></p>
+                                    <h6 class="mb-2 user-menu">No account found</h6>
+                                    <div class="d-flex align-items-center gap-2 mb-2 user-menu">
+                                        <p class="user-menu">Try <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="LogIn">Logging In</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -107,6 +110,7 @@
     const accountMenu = document.getElementById("accountMenuButton");
     const darkModeButton = document.getElementById("darkModeToggle");
     let isRotated = false
+    let menuOpen = false
 
     const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");
     const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu");
@@ -125,6 +129,21 @@
             loggedInDropdownMenu.classList.toggle('d-none');
         } else {
             loggedOutDropdownMenu.classList.toggle('d-none');
+        }
+
+        menuOpen = !menuOpen;
+    })
+
+    document.addEventListener("click", (e) => {
+        if (menuOpen && !e.target.classList.contains("user-menu")) {
+            console.log("hello")
+            if (isAuthenticated) {
+                loggedInDropdownMenu.classList.toggle('d-none');
+            } else {
+                loggedOutDropdownMenu.classList.toggle('d-none');
+            }
+
+            menuOpen = !menuOpen;
         }
     })
 
