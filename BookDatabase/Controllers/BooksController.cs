@@ -19,19 +19,14 @@ namespace BookDatabase.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index(int page = 1, int pageSize = 4)
+        public IActionResult Index()
         {
             var userId = userManager.GetUserId(User);
 
-            var query = context.Books.Where(b => b.UserId == userId).OrderByDescending(b => b.Id);
-
-            int totalBooks = query.Count();
-            var books = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling(totalBooks / (double)pageSize);
+            var books = context.Books.Where(b => b.UserId == userId).OrderByDescending(b => b.Id).ToList();
 
             return View(books);
+
         }
 
 

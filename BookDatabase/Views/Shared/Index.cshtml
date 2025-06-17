@@ -24,6 +24,12 @@
         <div class="col">
             <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
             <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 35px;"/>
+            @* <label for="page-size">Books per page</label>
+            <select name="page-size" id="page-size" class="form-control">
+                <option value=5>5</option>
+                <option value=10>10</option>
+                <option value=20>20</option>
+            </select> *@
         </div>
         <div class="col d-flex align-items-start justify-content-end">
             <div class="position-relative">
@@ -63,7 +69,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody id="book-table-body">
             @foreach(var book in Model)
             {
                 var status = book.Status ?? "Unentered";
@@ -84,28 +90,18 @@
             }
         </tbody>
     </table>
-    @if (ViewBag.TotalPages > 1)
-    {
-        <nav>
-            <ul class="pagination justify-content-center">
-                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                {
-                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    }
+    
+    <div id="pagination-buttons"></div>
 </div>
 
 
 
 <script>
-    const searchbar = document.getElementById("book-searchbar");
 
-    const allRows = document.querySelectorAll("tbody tr");
-     
+    const tableBody = document.getElementById("book-table-body");
+    const allRows = Array.from(tableBody.querySelectorAll("tr"));
+
+    //Hamburger menu
     const hamburgerMenu = document.getElementById("menu-toggle");
     const dropdownMenu = document.getElementById("dropdown-menu");
     let isBurgerRotated = false;
@@ -117,6 +113,7 @@
         hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
     })
 
+    //dropdown menu
     let selectedRadio = null;
 
     document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
@@ -147,17 +144,55 @@
         });
     });
 
-    searchbar.addEventListener("keyup", () => {
-        allRows.forEach(row => {
-            row.classList.add("d-none");
+    //searchbar
+    let rowsPerPage = 5;
+    const searchbar = document.getElementById("book-searchbar");
+    const paginationContainer = document.getElementById("pagination-buttons")
+    const pageSizeWheel = document.getElementById("page-size");
+    let filteredRows = [...allRows];
+    let currentPage = 1;
 
-            if (row.dataset.title.toLowerCase().includes(searchbar.value.toLowerCase()) || row.dataset.author.toLowerCase().includes(searchbar.value.toLowerCase())){
-                row.classList.remove("d-none");
-            }
+    function updateTableDisplay() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
 
-            if (searchbar.value == ""){
-                row.classList.remove("d-none");
-            }
-        })
-    })
+        allRows.forEach(row => row.classList.add("d-none"));
+        filteredRows.slice(start, end).forEach(row => row.classList.remove("d-none"));
+
+        renderPaginationButtons();
+    }
+
+    function renderPaginationButtons() {
+        const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+        paginationContainer.innerHTML = "";
+
+        for (let i = 1; i <= pageCount; i++) {
+            const button = document.createElement("button");
+            button.className = "btn btn-outline-primary mx-1";
+            if (i === currentPage) button.classList.add("active");
+            button.innerText = i;
+            button.addEventListener("click", () => {
+                currentPage = i;
+                updateTableDisplay();
+            });
+            paginationContainer.appendChild(button);
+        }
+    }
+
+    function filterRows() {
+        const term = searchbar.value.toLowerCase();
+
+        filteredRows = allRows.filter(row => {
+            const title = row.dataset.title || "";
+            const author = row.dataset.author || "";
+            return title.includes(term) || author.includes(term);
+        });
+
+        currentPage = 1;
+        updateTableDisplay();
+    }
+
+    // Initial setup
+    searchbar.addEventListener("input", filterRows);
+    filterRows(); // Load first page on startup
 </script>
