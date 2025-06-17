@@ -110,6 +110,7 @@
     const dropdownMenu = document.getElementById("dropdown-menu");
 
     let rowsPerPage = 5;
+    let filterRestrictedRows = [...allRows];
     let filteredRows = [...allRows];
     let currentPage = 1;
     let isBurgerRotated = false;
@@ -131,24 +132,20 @@
                 this.checked = false;
                 selectedRadio = null;
 
-                allRows.forEach(row => row.classList.remove("d-none"));
+                filterRestrictedRows = allRows;
+                filterRows();
+                updateTableDisplay();
                 return;
             }
             selectedRadio = this;
 
             const selectedValue = this.value;
 
-            // Hide all rows
-            allRows.forEach(row => {
-                row.classList.add("d-none");
-            })
-
-            // Show only matching rows
-            allRows.forEach(row => {
-                if (row.dataset.status === selectedValue) {
-                    row.classList.remove("d-none");
-                }
+            filterRestrictedRows = allRows.filter(row => {
+                return row.dataset.status === selectedValue;
             });
+            filterRows();
+            updateTableDisplay();
         });
     });
 
@@ -195,7 +192,7 @@
         filteredRows = allRows.filter(row => {
             const title = row.dataset.title.toLowerCase() || "";
             const author = row.dataset.author.toLowerCase() || "";
-            return title.includes(term) || author.includes(term);
+            return (title.includes(term) || author.includes(term)) && filterRestrictedRows.includes(row);
         });
 
         currentPage = 1;
