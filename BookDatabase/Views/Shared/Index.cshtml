@@ -23,13 +23,14 @@
     <div class="row mb-5">
         <div class="col">
             <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
-            <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 35px;"/>
-            @* <label for="page-size">Books per page</label>
-            <select name="page-size" id="page-size" class="form-control">
-                <option value=5>5</option>
-                <option value=10>10</option>
-                <option value=20>20</option>
-            </select> *@
+            <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 45px;"/>
+                <label for="page-size" style="margin-left: 65px;">Books per page</label>
+                <select name="page-size" id="page-size">
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=20>20</option>
+                </select>
+            
         </div>
         <div class="col d-flex align-items-start justify-content-end">
             <div class="position-relative">
@@ -101,11 +102,20 @@
     const tableBody = document.getElementById("book-table-body");
     const allRows = Array.from(tableBody.querySelectorAll("tr"));
 
-    //Hamburger menu
+    
+    const searchbar = document.getElementById("book-searchbar");
+    const paginationContainer = document.getElementById("pagination-buttons")
+    const pageSizeWheel = document.getElementById("page-size");
     const hamburgerMenu = document.getElementById("menu-toggle");
     const dropdownMenu = document.getElementById("dropdown-menu");
-    let isBurgerRotated = false;
 
+    let rowsPerPage = 5;
+    let filteredRows = [...allRows];
+    let currentPage = 1;
+    let isBurgerRotated = false;
+    let selectedRadio = null;
+
+    //Hamburger menu
     hamburgerMenu.addEventListener("click", () => {
         dropdownMenu.classList.toggle('d-none');
         isBurgerRotated = !isBurgerRotated;
@@ -114,8 +124,6 @@
     })
 
     //dropdown menu
-    let selectedRadio = null;
-
     document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
         radio.addEventListener('click', function () {
 
@@ -145,12 +153,13 @@
     });
 
     //searchbar
-    let rowsPerPage = 5;
-    const searchbar = document.getElementById("book-searchbar");
-    const paginationContainer = document.getElementById("pagination-buttons")
-    const pageSizeWheel = document.getElementById("page-size");
-    let filteredRows = [...allRows];
-    let currentPage = 1;
+    //filter and searchbar ignore each other
+    pageSizeWheel.addEventListener("input", () => {
+        if (pageSizeWheel.value != rowsPerPage) {
+            rowsPerPage = pageSizeWheel.value;
+            updateTableDisplay();
+        }
+    })
 
     function updateTableDisplay() {
         const start = (currentPage - 1) * rowsPerPage;
@@ -165,17 +174,18 @@
     function renderPaginationButtons() {
         const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
         paginationContainer.innerHTML = "";
-
-        for (let i = 1; i <= pageCount; i++) {
-            const button = document.createElement("button");
-            button.className = "btn btn-outline-primary mx-1";
-            if (i === currentPage) button.classList.add("active");
-            button.innerText = i;
-            button.addEventListener("click", () => {
-                currentPage = i;
-                updateTableDisplay();
-            });
-            paginationContainer.appendChild(button);
+        if (pageCount > 1){
+            for (let i = 1; i <= pageCount; i++) {
+                const button = document.createElement("button");
+                button.className = "btn btn-outline-primary mx-1";
+                if (i === currentPage) button.classList.add("active");
+                button.innerText = i;
+                button.addEventListener("click", () => {
+                    currentPage = i;
+                    updateTableDisplay();
+                });
+                paginationContainer.appendChild(button);
+            }
         }
     }
 
@@ -183,8 +193,8 @@
         const term = searchbar.value.toLowerCase();
 
         filteredRows = allRows.filter(row => {
-            const title = row.dataset.title || "";
-            const author = row.dataset.author || "";
+            const title = row.dataset.title.toLowerCase() || "";
+            const author = row.dataset.author.toLowerCase() || "";
             return title.includes(term) || author.includes(term);
         });
 
