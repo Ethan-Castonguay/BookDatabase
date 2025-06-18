@@ -1,0 +1,28 @@
+﻿@model EmailConfirmationDto
+@{
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">Verify your e-mail address</h2>
+
+        <form method="post" asp-controller="Account" asp-action="EmailConfirmation">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Email Address</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" asp-for="email">
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" value="verify" class="btn btn-primary">Check</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

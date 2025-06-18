@@ -3,6 +3,7 @@ using BookDatabase.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookDatabase.Controllers
 {
@@ -95,6 +96,83 @@ namespace BookDatabase.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(logInDto);
+        }
+
+        public IActionResult EmailConfirmation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EmailConfirmation(EmailConfirmationDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "No account found with this email.");
+                return View(model);
+            }
+
+            return RedirectToAction("PasswordReset", "Account", new {username = user.UserName});
+        }
+
+        public IActionResult PasswordReset(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                RedirectToAction("EmailConfirmation", "Account");
+            }
+            return View(new PasswordResetDto { Email = username });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordReset(PasswordResetDto model)
+            //This currently allows you to reset the password only if you give an email already in the system, don't have to confirm that it belongs to you. This is less safe but way simpler
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.newPassword != model.secondAttemptNewPassword)
+                {
+                    ModelState.AddModelError("Password", "Passwords do not match.");
+                    return View(model);
+                }
+
+                Console.WriteLine(model.Email);
+                var user = await _userManager.FindByNameAsync(model.Email);
+
+                if (user != null)
+                {
+                    var result = await _userManager.RemovePasswordAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await _userManager.AddPasswordAsync(user, model.newPassword);
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Email not found");
+                    return View(model);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong try again");
+                return View(model);
+            }
         }
 
         [HttpPost]
