@@ -1,4 +1,4 @@
-﻿@model List<Book>
+﻿@model TableSorter
 @{
 }
 
@@ -56,23 +56,27 @@
         </div>
     </div>
 
-
+    <form id="sort-form" method="get">
+        <input type="hidden" asp-for="books" />
+        <input type="hidden" id="selected-input" name="selected" value="@Model.selected" asp-for="selected"/>
+        <input type="hidden" id="isDown-input" name="isDown" value="@Model.isDown.ToString().ToLower()" asp-for="isDown"/>
+    </form>
 
     <table id="book-table" class="table rounded">
         <thead>
             <tr>
-                <th id="table-id" style="cursor: pointer">Id &uarr;</th>
-                <th>Status</th>
-                <th id="table-title" style="cursor: pointer">Title</th>
-                <th>Date of Publication</th>
-                <th id="table-author" style="cursor: pointer">Author</th>
-                <th>Image</th>
-                <th>Action</th>
+                    <th id="table-id" style="cursor: pointer">Id &uarr;</th>
+                    <th>Status</th>
+                    <th id="table-title" style="cursor: pointer">Title</th>
+                    <th>Date of Publication</th>
+                    <th id="table-author" style="cursor: pointer">Author</th>
+                    <th>Image</th>
+                    <th>Action</th>
             </tr>
         </thead>
 
         <tbody id="book-table-body">
-            @foreach(var book in Model)
+            @foreach(var book in Model.books)
             {
                 var status = book.Status ?? "Unentered";
                 var title = book.title ?? "";
@@ -102,17 +106,22 @@
     const tableIdButton = document.getElementById("table-id");
     const tableTitleButton = document.getElementById("table-title");
     const tableAuthorButton = document.getElementById("table-author");
-    let selected = "id";
-    let directionDown = true;
+    const sortForm = document.getElementById("sort-form");
+    const selectedInput = document.getElementById("selected-input");
+    const isDownInput = document.getElementById("isDown-input");
+    let selected = "@Model.selected";
+    let directionDown = "@Model.isDown" === 'true' ? true : false;
 
     tableIdButton.addEventListener("click", () => {
         if (selected == "id") {
             if (directionDown){
                 tableIdButton.innerHTML = "Id &uarr;"
                 directionDown = false;
+                console.log("1");
             } else {
                 tableIdButton.innerHTML = "Id &darr;"
                 directionDown = true;
+                console.log("2");
             }
         } else {
             tableIdButton.innerHTML = "Id &darr;"
@@ -120,7 +129,13 @@
             tableAuthorButton.innerHTML = "Author";
             directionDown = true;
             selected = "id";
+                console.log("3");
         }
+
+        selectedInput.value = selected;
+        isDownInput.value = directionDown.toString();
+                console.log("4");
+        sortForm.submit();
     })
 
     tableTitleButton.addEventListener("click", () => {
@@ -138,7 +153,13 @@
             tableAuthorButton.innerHTML = "Author";
             directionDown = true;
             selected = "title";
+
+                console.log("5");
         }
+
+        selectedInput.value = selected;
+        isDownInput.value = directionDown.toString();
+        sortForm.submit();
     })
 
     tableAuthorButton.addEventListener("click", () => {
@@ -158,6 +179,9 @@
             selected = "author";
         }
 
+        selectedInput.value = selected;
+        isDownInput.value = directionDown.toString();
+        sortForm.submit();
     })
 </script>
 

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BookDatabase.Models;
+﻿using BookDatabase.Models;
 using BookDatabase.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace BookDatabase.Controllers
 {
@@ -19,21 +20,31 @@ namespace BookDatabase.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string selected = "Id", string isDown = "true")
         {
             var userId = userManager.GetUserId(User);
+            var books = context.Books.Where(b => b.UserId == userId);
 
-            var books = context.Books.Where(b => b.UserId == userId).OrderByDescending(b => b.Id).ToList();
+            books = (selected.ToLower(), isDown) switch
+            {
+                ("title", "true") => books.OrderBy(b => b.title),
+                ("title", "false") => books.OrderByDescending(b => b.title),
+                ("author", "true") => books.OrderBy(b => b.author),
+                ("author", "false") => books.OrderByDescending(b => b.author),
+                _ => isDown == "false" ? books.OrderBy(b => b.Id) : books.OrderByDescending(b => b.Id)
+            };
 
-            return View(books);
+            var sorter = new TableSorter
+            {
+                books = books.ToList(),
+                selected = selected,
+                isDown = isDown
+            };
 
+            return View(sorter);
         }
 
-
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         [HttpPost]
         public IActionResult Create(BookDto bookDto)
