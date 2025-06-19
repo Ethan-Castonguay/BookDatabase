@@ -96,12 +96,10 @@
 </div>
 
 
-
 <script>
 
     const tableBody = document.getElementById("book-table-body");
     const allRows = Array.from(tableBody.querySelectorAll("tr"));
-
     
     const searchbar = document.getElementById("book-searchbar");
     const paginationContainer = document.getElementById("pagination-buttons")
@@ -115,6 +113,16 @@
     let currentPage = 1;
     let isBurgerRotated = false;
     let selectedRadio = null;
+
+    //Keyboard shortcuts
+    document.addEventListener("keyup", (e) => {
+        if (e.key === 'n' && document.activeElement.id !== "book-searchbar") {
+            window.location.href += "/Create";
+        }
+        if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
+            searchbar.focus();
+        }
+    })
 
     //Hamburger menu
     hamburgerMenu.addEventListener("click", () => {
@@ -150,7 +158,6 @@
     });
 
     //searchbar
-    //filter and searchbar ignore each other
     pageSizeWheel.addEventListener("input", () => {
         if (pageSizeWheel.value != rowsPerPage) {
             rowsPerPage = pageSizeWheel.value;

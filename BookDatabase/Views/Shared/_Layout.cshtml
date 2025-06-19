@@ -124,6 +124,15 @@
         }
     })
 
+    window.addEventListener("keyup", (e) => {
+        const tag = document.activeElement.tagName.toLowerCase();
+        if (["input", "textarea", "select"].includes(tag)) return;
+
+        if (e.key === 'm') {
+            darkModeButtonFunctions();
+        }
+    });
+
     accountMenu.addEventListener("click", () => {
         if (isAuthenticated) {
             loggedInDropdownMenu.classList.toggle('d-none');
@@ -136,7 +145,6 @@
 
     document.addEventListener("click", (e) => {
         if (menuOpen && !e.target.classList.contains("user-menu")) {
-            console.log("hello")
             if (isAuthenticated) {
                 loggedInDropdownMenu.classList.toggle('d-none');
             } else {
@@ -147,7 +155,9 @@
         }
     })
 
-    darkModeButton.addEventListener("click", () => {
+    darkModeButton.addEventListener("click", darkModeButtonFunctions);
+
+    function darkModeButtonFunctions() {
         isRotated = !isRotated;
         darkModeButton.style.transition = 'transform 0.5s ease-in-out';
         darkModeButton.style.transform = isRotated ? 'rotate(180deg)' : 'rotate(0deg)';
@@ -159,7 +169,7 @@
         } else {
             localStorage.setItem('theme', 'light');
         }
-    })
+    }
 
     Array.from(shinyButtons).forEach((button) => {
         button.addEventListener("mouseover", () => {
