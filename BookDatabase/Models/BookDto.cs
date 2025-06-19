@@ -13,6 +13,7 @@ namespace BookDatabase.Models
         public string Status { get; set; } = "Unentered";
         public string genre { get; set; } = "";
         public string? Completion { get; set; }
+        public int? chapters { get; set; }
         public int? starRating { get; set; }
         public string? review { get; set; }
         public IFormFile? ImageFile { get; set; }

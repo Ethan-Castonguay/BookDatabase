@@ -76,6 +76,7 @@ namespace BookDatabase.Controllers
                 Status = bookDto.Status,
                 genre = bookDto.genre,
                 Completion = bookDto.Completion,
+                chapters = bookDto.chapters,
                 starRating = bookDto.starRating,
                 review = bookDto.review,
                 ImageFileName = newFileName,
@@ -107,6 +108,7 @@ namespace BookDatabase.Controllers
                 Status = book.Status,
                 genre = book.genre,
                 Completion = book.Completion,
+                chapters = book.chapters,
                 starRating = book.starRating,
                 review = book.review
             };
@@ -181,6 +183,7 @@ namespace BookDatabase.Controllers
             book.Status = bookDto.Status;
             book.genre = bookDto.genre;
             book.Completion = bookDto.Completion;
+            book.chapters = bookDto.chapters;
             book.starRating = bookDto.starRating;
             book.review = bookDto.review;
 

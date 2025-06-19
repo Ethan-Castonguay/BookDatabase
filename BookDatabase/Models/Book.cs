@@ -23,6 +23,7 @@ namespace BookDatabase.Models
         public string genre { get; set; } = "";
 
         public string? Completion { get; set; }
+        public int ? chapters { get; set; }
 
         public int? starRating { get; set; }
 

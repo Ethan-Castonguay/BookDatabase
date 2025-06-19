@@ -96,6 +96,14 @@
                 </div>
             </div>
 
+            <div id="chapters-div" class="row mb-3 d-none">
+                <label class="col-sm-4 col-form-label">Chapters read</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="chapters">
+                    <span asp-validation-for="chapters" class="text-danger"></span>
+                </div>
+            </div>
+
             <div id="ratings-div" class="row mb-3 d-none">
                 <label class="col-sm-4 col-form-label">Rating</label>
                 <div id="rating" class="col-sm-8 star-rating">
@@ -143,6 +151,7 @@
     const completionDiv = document.getElementById("completion-div");
     const ratingsDiv = document.getElementById("ratings-div");
     const reviewDiv = document.getElementById("review-div");
+    const chaptersDiv = document.getElementById("chapters-div");
 
     statusWheel.addEventListener("click", () => {
         if (statusWheel.value == "Owned") {
@@ -156,9 +165,15 @@
         if (completionWheel.value == "finished") {
             ratingsDiv.classList.remove("d-none");
             reviewDiv.classList.remove("d-none");
+            chaptersDiv.classList.add("d-none");
+        } else if (completionWheel.value == "reading"){
+            ratingsDiv.classList.add("d-none");
+            reviewDiv.classList.add("d-none");
+            chaptersDiv.classList.remove("d-none");
         } else {
             ratingsDiv.classList.add("d-none");
             reviewDiv.classList.add("d-none");
+            chaptersDiv.classList.add("d-none");
         }
     })
 </script>
