@@ -21,7 +21,7 @@ namespace BookDatabase.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string selected = "Id", string isDown = "true")
+        public IActionResult Index(string selected = "id", string isDown = "true")
         {
             var userId = userManager.GetUserId(User);
             var books = context.Books.Where(b => b.UserId == userId);

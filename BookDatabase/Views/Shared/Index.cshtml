@@ -112,49 +112,44 @@
     let selected = "@Model.selected";
     let directionDown = "@Model.isDown" === 'true' ? true : false;
 
+    if (selected === "id") {
+        tableIdButton.innerHTML = directionDown ? "Id &uarr;" : "Id &darr;";
+    } else if (selected === "title") {
+        tableTitleButton.innerHTML = !directionDown ? "Title &uarr;" : "Title &darr;";
+        tableIdButton.innerHTML = "Id";
+    } else {
+        tableAuthorButton.innerHTML = !directionDown ? "Author &uarr;" : "Author &darr;";
+        tableIdButton.innerHTML = "Id";
+    }
+
+    //problems: takes two clicks for the id and only the id, the others work on first click. Arrows don't work whatsoever
     tableIdButton.addEventListener("click", () => {
         if (selected == "id") {
-            if (directionDown){
-                tableIdButton.innerHTML = "Id &uarr;"
-                directionDown = false;
-                console.log("1");
-            } else {
-                tableIdButton.innerHTML = "Id &darr;"
-                directionDown = true;
-                console.log("2");
-            }
+            tableIdButton.innerHTML = directionDown ? "Id &uarr;" : "Id &darr;";
+            directionDown = !directionDown;
         } else {
             tableIdButton.innerHTML = "Id &darr;"
             tableTitleButton.innerHTML = "Title";
             tableAuthorButton.innerHTML = "Author";
             directionDown = true;
             selected = "id";
-                console.log("3");
         }
 
         selectedInput.value = selected;
         isDownInput.value = directionDown.toString();
-                console.log("4");
         sortForm.submit();
     })
 
     tableTitleButton.addEventListener("click", () => {
         if (selected == "title") {
-            if (directionDown){
-                tableTitleButton.innerHTML = "Title &uarr;"
-                directionDown = false;
-            } else {
-                tableTitleButton.innerHTML = "Title &darr;"
-                directionDown = true;
-            }
+            tableTitleButton.innerHTML = directionDown ? "Title &uarr;" : "Title &darr;";
+            directionDown = !directionDown;
         } else {
             tableIdButton.innerHTML = "Id"
             tableTitleButton.innerHTML = "Title &darr;";
             tableAuthorButton.innerHTML = "Author";
             directionDown = true;
             selected = "title";
-
-                console.log("5");
         }
 
         selectedInput.value = selected;
@@ -164,13 +159,8 @@
 
     tableAuthorButton.addEventListener("click", () => {
         if (selected == "author") {
-            if (directionDown){
-                tableAuthorButton.innerHTML = "Author &uarr;"
-                directionDown = false;
-            } else {
-                tableAuthorButton.innerHTML = "Author &darr;"
-                directionDown = true;
-            }
+            tableAuthorButton.innerHTML = directionDown ? "Author &uarr;" : "Author &darr;";
+            directionDown = !directionDown;
         } else {
             tableIdButton.innerHTML = "Id"
             tableTitleButton.innerHTML = "Title";
@@ -210,6 +200,9 @@
         }
         if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
             searchbar.focus();
+        }
+        if (e.key === 'g' && document.activeElement.id !== "book-searchbar") {
+            console.log(selectedInput.value+", "+isDownInput.value);
         }
     })
 
