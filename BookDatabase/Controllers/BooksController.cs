@@ -45,6 +45,29 @@ namespace BookDatabase.Controllers
             return View(sorter);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserStats()
+        {
+            var userId = userManager.GetUserId(User);
+            var books = await context.Books.Where(b => b.UserId == userId).ToListAsync();
+
+            var bookCount = books.Count;
+            var avgRating = books.Any() ? books.Average(b => b.starRating) : 0;
+            var favoriteGenre = books
+                .GroupBy(b => b.genre)
+                .OrderByDescending(g => g.Count())
+                .Select(g => g.Key)
+                .FirstOrDefault() ?? "N/A";
+
+            var html = $@"
+            <li><span class='dropdown-item-text'>📚 Books: {bookCount}</span></li>
+            <li><span class='dropdown-item-text'>⭐ Avg. Rating: {avgRating:0.0}</span></li>
+            <li><span class='dropdown-item-text'>🏷️ Favorite Genre: {favoriteGenre}</span></li>";
+
+            return Content(html, "text/html");
+        }
+
+
 
         [HttpPost]
         public IActionResult Create(BookDto bookDto)
