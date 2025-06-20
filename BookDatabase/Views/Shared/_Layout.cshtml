@@ -155,7 +155,7 @@
             menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
 
             const statsDropdown = document.getElementById("statsDropdown");
-            if (statsDropdown && !statsDropdown.dataset.loaded) {
+               if (statsDropdown && statsDropdown.dataset.loaded === "false") {
                 const response = await fetch('/Books/UserStats');
                 const html = await response.text();
                 statsDropdown.innerHTML = html;

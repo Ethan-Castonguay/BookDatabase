@@ -52,7 +52,8 @@ namespace BookDatabase.Controllers
             var books = await context.Books.Where(b => b.UserId == userId).ToListAsync();
 
             var bookCount = books.Count;
-            var avgRating = books.Any() ? books.Average(b => b.starRating) : 0;
+            var ratedBooks = books.Where(b => b.starRating > 0).ToList();
+            var avgRating = ratedBooks.Any() ? ratedBooks.Average(b => b.starRating) : 0;
             var favoriteGenre = books
                 .GroupBy(b => b.genre)
                 .OrderByDescending(g => g.Count())
