@@ -134,6 +134,18 @@
         if (e.key === 'm') {
             darkModeButtonFunctions();
         }
+        if (e.key === 'h' && document.activeElement.id !== "book-searchbar") {
+            window.location.href = "/";
+        }
+        if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && isAuthenticated) {
+            window.location.href = "/Books";
+        }
+        if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && !isAuthenticated) {
+            window.location.href = "/Account/Login";
+        }
+        if (e.key === 'p' && document.activeElement.id !== "book-searchbar") {
+            window.location.href = "/Home/Privacy";
+        }
     });
 
     document.addEventListener("click", async (e) => {

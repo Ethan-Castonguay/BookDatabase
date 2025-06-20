@@ -68,7 +68,10 @@ namespace BookDatabase.Controllers
             return Content(html, "text/html");
         }
 
-
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         public IActionResult Create(BookDto bookDto)
