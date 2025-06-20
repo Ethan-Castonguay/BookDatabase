@@ -108,6 +108,22 @@
         <section class="hero">
             <h2>Welcome to MyBookDatabase</h2>
             <p>Organize your reading list and wish list</p>
+            <br/>
+            <br/>
+        <p id="quote" style="font: italic bold 30px /30px Georgia, serif;"></p>
         </section>
     </body>
 </html>
+
+<script>
+    fetch('/data/quotes.json')
+    .then(response => response.json())
+    .then(data => {
+      const random = data[Math.floor(Math.random() * data.length)];
+      document.getElementById('quote').innerText = random.text;
+    })
+    .catch(error => {
+      console.error('Failed to load quotes:', error);
+      document.getElementById('quote-box').innerText = "Couldn't load quote.";
+    });
+</script>
