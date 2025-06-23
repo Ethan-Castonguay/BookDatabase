@@ -62,18 +62,21 @@
         <input type="hidden" id="isDown-input" name="isDown" value="@Model.isDown.ToString().ToLower()" asp-for="isDown"/>
     </form>
 
-    <table id="book-table" class="table rounded">
+    <table id="book-table" class="table rounded d-none">
+        
         <thead>
             <tr>
-                    <th id="table-id" style="cursor: pointer">Id &uarr;</th>
-                    <th>Status</th>
-                    <th id="table-title" style="cursor: pointer">Title</th>
-                    <th>Date of Publication</th>
-                    <th id="table-author" style="cursor: pointer">Author</th>
-                    <th>Image</th>
-                    <th>Action</th>
+                <th id="table-id" style="cursor: pointer">Id &uarr;</th>
+                <th>Status</th>
+                <th id="table-title" style="cursor: pointer">Title</th>
+                <th>Date of Publication</th>
+                <th id="table-author" style="cursor: pointer">Author</th>
+                <th>Image</th>
+                <th>Action</th>
             </tr>
-        </thead>
+            </thead>
+        
+
 
         <tbody id="book-table-body">
             @foreach(var book in Model.books)
@@ -96,11 +99,24 @@
                 </tr>
             }
         </tbody>
-    </table>
-    
+        </table>
+        <p id="empty-table-paragraph" style="display: flex; justify-content:center; align-items: center">To add books to your list either click the blue 'create' button or press the 'n' key on your keyboard</p>
+
     <div id="pagination-buttons"></div>
 </div>
 
+<script>
+    const wholeTable = document.getElementById("book-table");
+    const emptyParagraph = document.getElementById("empty-table-paragraph");
+
+    if(@Model.books.Count > 0) {
+        wholeTable.classList.remove("d-none");
+        emptyParagraph.classList.add("d-none");
+    } else {
+        wholeTable.classList.add("d-none");
+        emptyParagraph.classList.remove("d-none");
+    }
+</script>
 
 <script>
     const tableIdButton = document.getElementById("table-id");
@@ -205,6 +221,13 @@
         }
         else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
             searchbar.focus();
+            if (!dropdownMenu.classList.contains("d-none")) {
+                dropdownMenu.classList.add("d-none");
+                    isBurgerRotated = !isBurgerRotated;
+                    hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+                    hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+            }
+            
         }
         if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
             currentPage += 1;
@@ -222,6 +245,24 @@
         isBurgerRotated = !isBurgerRotated;
         hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
         hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+    })
+
+    searchbar.addEventListener("click", () => {
+        if (!dropdownMenu.classList.contains("d-none")) {
+            dropdownMenu.classList.add("d-none");
+            isBurgerRotated = !isBurgerRotated;
+            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+    })
+
+    pageSizeWheel.addEventListener("click", () => {
+        if (!dropdownMenu.classList.contains("d-none")) {
+            dropdownMenu.classList.add("d-none");
+            isBurgerRotated = !isBurgerRotated;
+            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
     })
 
     //dropdown menu
