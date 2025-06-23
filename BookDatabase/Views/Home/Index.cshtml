@@ -111,6 +111,7 @@
             <br/>
             <br/>
         <p id="quote" style="font: italic bold 30px /30px Georgia, serif;"></p>
+        <p id="author" style="font: italic bold 30px /30px Georgia, serif;"></p>
         </section>
     </body>
 </html>
@@ -119,8 +120,11 @@
     fetch('/data/quotes.json')
     .then(response => response.json())
     .then(data => {
+        console.log(data.length);
       const random = data[Math.floor(Math.random() * data.length)];
-      document.getElementById('quote').innerText = random.text;
+      console.log(random.text);
+      document.getElementById('quote').innerText = random.quote; 
+      document.getElementById('author').innerText = " - " + random.author;
     })
     .catch(error => {
       console.error('Failed to load quotes:', error);

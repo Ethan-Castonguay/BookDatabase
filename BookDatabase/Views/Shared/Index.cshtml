@@ -196,10 +196,23 @@
     //Keyboard shortcuts
     document.addEventListener("keyup", (e) => {
         if (e.key === 'n' && document.activeElement.id !== "book-searchbar") {
-            window.location.href += "/Create";
+            window.location.href = "/Books/Create";
         }
-        if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
+        if (e.key === '/' && document.activeElement.id === "book-searchbar") {
+            searchbar.blur();
+            searchbar.value = "";
+            filterRows();
+        }
+        else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
             searchbar.focus();
+        }
+        if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
+            currentPage += 1;
+            updateTableDisplay();
+        } 
+        if (e.key === 'ArrowLeft' && currentPage !== 1) {
+            currentPage -= 1;
+            updateTableDisplay();
         }
     })
 
