@@ -3,6 +3,7 @@ using BookDatabase.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookDatabase.Controllers
@@ -12,11 +13,13 @@ namespace BookDatabase.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IEmailSender _emailSender; 
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -55,8 +58,16 @@ namespace BookDatabase.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
+
+                var receiver = signUpDto.email;
+                var subject = "Test";
+                var message = "To successfully create your account click here";
+
+                await _emailSender.SendEmailAsync(receiver, subject, message);
+
                 return RedirectToAction("Index", "Home");
-            } else
+            } 
+            else
             {
                 foreach (var error in result.Errors)
                 {
