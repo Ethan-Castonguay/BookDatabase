@@ -124,7 +124,7 @@
       const random = data[Math.floor(Math.random() * data.length)];
       console.log(random.text);
       document.getElementById('quote').innerText = random.quote; 
-      document.getElementById('author').innerText = " - " + random.author;
+      document.getElementById('author').innerText = "- " + random.author;
     })
     .catch(error => {
       console.error('Failed to load quotes:', error);

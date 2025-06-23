@@ -55,11 +55,14 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="offset-sm-4 col-sm-4 d-grid">
-                    <p>Already have an account? <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a></p>
+            @if (!(User.Identity?.IsAuthenticated ?? false))
+            {
+                <div class="row">
+                    <div class="offset-sm-4 col-sm-4 d-grid">
+                        <p>Already have an account? <a style="color: deepskyblue; text-decoration: underline;" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a></p>
+                    </div>
                 </div>
-            </div>
+            }
 
             <div class="row">
                 <div class="offset-sm-4 col-sm-4 d-grid">
