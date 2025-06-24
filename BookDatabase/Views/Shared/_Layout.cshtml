@@ -60,8 +60,29 @@
                         }
                         <li>
                             <div class="position-relative">
-                                <img id="accountMenuButton" class="user-menu" src="~/Images/AnonymousProfilePicture-modified.png" width="65px;" style="cursor:pointer;"/>
-                                <img id="accountMenuAlternateButton" class="user-menu d-none" src="~/Images/AlternateProfilePicture.png" width="65px;" style="cursor:pointer;" title="Change Profile Picture"/>
+                                @if (User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    var path = Url.Content(ViewBag.ProfileImgPath) ?? "";
+                                    var defaultPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+
+                                    if (!string.IsNullOrWhiteSpace(path) && !path.Equals(defaultPath, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <img id="customAccountMenuButton" class="user-menu" src="@path" width="65px;" style="cursor:pointer;" />
+                                    }
+                                    else
+                                    {
+                                        <img id="accountMenuButton" class="user-menu" src="@defaultPath" width="65px;" style="cursor:pointer;" />
+                                        <img id="accountMenuAlternateButton" class="user-menu d-none" src="@Url.Content("~/Images/AlternateProfilePicture.png")" width="65px;" style="cursor:pointer;" title="Change Profile Picture" />
+                                    }
+                                }
+                                else
+                                {
+                                    <img id="accountMenuButton" class="user-menu" src="@Url.Content("~/Images/AnonymousProfilePicture-modified.png")" width="65px;" style="cursor:pointer;" />
+                                    <img id="accountMenuAlternateButton" class="user-menu d-none" src="@Url.Content("~/Images/AlternateProfilePicture.png")" width="65px;" style="cursor:pointer;" title="Change Profile Picture" />
+                                }
+
+
+                                
                                 <img id="darkModeToggle" src="~/Images/DarkModeToggleImg-modified.png" width="65px;" style="cursor:pointer;" title="Dark mode toggle"/>
 
                                 <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
@@ -111,15 +132,14 @@
 </html>
 
 <script>
-    //Goals: only when the menu is open and you hover over the pfp icon again does it change to the alternate with a title of "change profile picture"
-    //Clicking on it brings the user to a separate page where they can enter an image to be there new pfp
-    //Once the new pfp is in place the alternate image should no longer appear
+    //Once the new pfp is in place the alternate image should no longer appear *ON EVERY PAGE, CURRENTLY ONLY WORKS ON HOME PAGE*
     //a button labeled "remove pfp" should appear and when clicked simply deletes the users custom pfp and returns to the default
     const isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 
 
     const accountMenu = document.getElementById("accountMenuButton");
     const alternateAccountMenu = document.getElementById("accountMenuAlternateButton");
+    const customAccountMenu = document.getElementById("customAccountMenuButton");
     const darkModeButton = document.getElementById("darkModeToggle");
     let isRotated = false
     let menuOpen = false
@@ -173,39 +193,71 @@
         }
     })
 
-    accountMenu.addEventListener("click", async () => {
-        if (isAuthenticated) {
-            loggedInDropdownMenu.classList.toggle('d-none');
-            menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
+    if (customAccountMenu) {
+        customAccountMenu.addEventListener("click", async () => {
+            if (isAuthenticated) {
+                loggedInDropdownMenu.classList.toggle('d-none');
+                menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
 
-            if(menuOpen) {
-                accountMenu.addEventListener("mouseover", () => {
-                    alternateAccountMenu.classList.remove("d-none");
-                    accountMenu.classList.add("d-none");
-                    alternateAccountMenu.addEventListener("mouseout", () => {
-                        accountMenu.classList.remove("d-none");
-                        alternateAccountMenu.classList.add("d-none");
+                if (menuOpen) {
+                    customAccountMenu.title = "Change Profile Picture";
+                    customAccountMenu.addEventListener("click", () => {
+                        window.location.href = '/Account/PfpImgChange'
                     })
-                })
-                
-            }
+                }
 
-            const statsDropdown = document.getElementById("statsDropdown");
-            if (statsDropdown && statsDropdown.dataset.loaded === "false") {
-                const response = await fetch('/Books/UserStats');
-                const html = await response.text();
-                statsDropdown.innerHTML = html;
-                statsDropdown.dataset.loaded = "true";
+                const statsDropdown = document.getElementById("statsDropdown");
+                if (statsDropdown && statsDropdown.dataset.loaded === "false") {
+                    const response = await fetch('/Books/UserStats');
+                    const html = await response.text();
+                    statsDropdown.innerHTML = html;
+                    statsDropdown.dataset.loaded = "true";
+                }
+            } else {
+                loggedOutDropdownMenu.classList.toggle('d-none');
+                menuOpen = !loggedOutDropdownMenu.classList.contains('d-none');
             }
-        } else {
-            loggedOutDropdownMenu.classList.toggle('d-none');
-            menuOpen = !loggedOutDropdownMenu.classList.contains('d-none');
-        }
-    });
+        });
 
-    alternateAccountMenu.addEventListener("click", () => {
-        window.location.href = '/Account/PfpImgChange'
-    })
+    }
+    if (accountMenu){
+        accountMenu.addEventListener("click", async () => {
+            if (isAuthenticated) {
+                loggedInDropdownMenu.classList.toggle('d-none');
+                menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
+
+                if(menuOpen) {
+                    accountMenu.addEventListener("mouseover", () => {
+                        alternateAccountMenu.classList.remove("d-none");
+                        accountMenu.classList.add("d-none");
+                        alternateAccountMenu.addEventListener("mouseout", () => {
+                            accountMenu.classList.remove("d-none");
+                            alternateAccountMenu.classList.add("d-none");
+                        })
+                    })
+
+                }
+
+                const statsDropdown = document.getElementById("statsDropdown");
+                if (statsDropdown && statsDropdown.dataset.loaded === "false") {
+                    const response = await fetch('/Books/UserStats');
+                    const html = await response.text();
+                    statsDropdown.innerHTML = html;
+                    statsDropdown.dataset.loaded = "true";
+                }
+            } else {
+                loggedOutDropdownMenu.classList.toggle('d-none');
+                menuOpen = !loggedOutDropdownMenu.classList.contains('d-none');
+            }
+        });
+    }
+    
+    if (alternateAccountMenu) {
+        alternateAccountMenu.addEventListener("click", () => {
+            window.location.href = '/Account/PfpImgChange'
+        })
+    }
+    
 
     darkModeButton.addEventListener("click", darkModeButtonFunctions);
 

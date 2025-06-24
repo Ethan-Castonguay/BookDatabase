@@ -1,20 +1,42 @@
-using System.Diagnostics;
 using BookDatabase.Models;
+using BookDatabase.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace BookDatabase.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
+            _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             return View();
         }
 
@@ -27,6 +49,8 @@ namespace BookDatabase.Controllers
         {
             return View();
         }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

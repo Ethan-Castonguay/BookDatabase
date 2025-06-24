@@ -3,6 +3,7 @@ using BookDatabase.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Net.Mail;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -10,16 +11,19 @@ namespace BookDatabase.Controllers
 {
     public class AccountController : Controller
     {
-
+        private readonly ApplicationDbContext context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IWebHostEnvironment environment;
         private readonly IEmailSender _emailSender; 
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailSender emailSender, IWebHostEnvironment environment, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            this.environment = environment;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -197,6 +201,51 @@ namespace BookDatabase.Controllers
         public IActionResult PfpImgChange()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult PfpImgChange(PfpImgDto model)
+        {
+            if (model.ImageFile == null)
+            {
+                ModelState.AddModelError("ImageFile", "The image file is required");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            string imagesFolder = Path.Combine(environment.WebRootPath, "Images");
+            if (!Directory.Exists(imagesFolder))
+            {
+                Directory.CreateDirectory(imagesFolder);
+            }
+
+
+            //Save the image file
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            newFileName += Path.GetExtension(model.ImageFile!.FileName);
+
+            string imageFullPath = Path.Combine(environment.WebRootPath, "Images", newFileName);
+            //stream is the path to the image, then copy the image file from bookDto at the path
+            using (var stream = System.IO.File.Create(imageFullPath))
+            {
+                model.ImageFile.CopyTo(stream);
+            }
+
+            var userId = _userManager.GetUserId(User);
+
+            PfpImg pfpImg = new PfpImg()
+            {
+                ImageFileName = "/Images/" + newFileName,
+                UserId = userId!
+            };
+
+            context.pfpImgs.Add(pfpImg);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
     }
