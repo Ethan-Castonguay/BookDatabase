@@ -63,7 +63,7 @@ namespace BookDatabase.Controllers
             var html = $@"
             <li><span class='dropdown-item-text'>📚 Books: {bookCount}</span></li>
             <li><span class='dropdown-item-text'>⭐ Avg. Rating: {avgRating:0.0}</span></li>
-            <li><span class='dropdown-item-text'>🏷️ Favorite Genre: {favoriteGenre}</span></li>";
+            <li><span class='dropdown-item-text'>🏷️ Fav. Genre: {favoriteGenre}</span></li>";
 
             return Content(html, "text/html");
         }

@@ -44,6 +44,9 @@
                         <li class="nav-item">
                             <a id="privacy-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a id="about-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li class="nav-item">
@@ -58,18 +61,19 @@
                         <li>
                             <div class="position-relative">
                                 <img id="accountMenuButton" class="user-menu" src="~/Images/AnonymousProfilePicture-modified.png" width="65px;" style="cursor:pointer;"/>
+                                <img id="accountMenuAlternateButton" class="user-menu d-none" src="~/Images/AlternateProfilePicture.png" width="65px;" style="cursor:pointer;" title="Change Profile Picture"/>
                                 <img id="darkModeToggle" src="~/Images/DarkModeToggleImg-modified.png" width="65px;" style="cursor:pointer;" title="Dark mode toggle"/>
 
                                 <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
-    <h6 class="mb-2 user-menu">Hello, @User.Identity?.Name</h6>
-    <ul id="statsDropdown" data-loaded="false" style="padding-left: 0; list-style: none;"></ul>
-    <div class="d-flex align-items-center gap-2 mb-2 user-menu">
-        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
-        </form>
-    </div>
-</div>
+                                    <h6 class="mb-2 user-menu">Hello, @User.Identity?.Name</h6>
+                                    <ul id="statsDropdown" data-loaded="false" style="padding-left: 0; list-style: none;"></ul>
+                                    <div class="d-flex align-items-center gap-2 mb-2 user-menu">
+                                        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
+                                        </form>
+                                    </div>
+                                </div>
 
                                 <div id="account-loggedout-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
 
@@ -107,10 +111,15 @@
 </html>
 
 <script>
+    //Goals: only when the menu is open and you hover over the pfp icon again does it change to the alternate with a title of "change profile picture"
+    //Clicking on it brings the user to a separate page where they can enter an image to be there new pfp
+    //Once the new pfp is in place the alternate image should no longer appear
+    //a button labeled "remove pfp" should appear and when clicked simply deletes the users custom pfp and returns to the default
     const isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 
 
     const accountMenu = document.getElementById("accountMenuButton");
+    const alternateAccountMenu = document.getElementById("accountMenuAlternateButton");
     const darkModeButton = document.getElementById("darkModeToggle");
     let isRotated = false
     let menuOpen = false
@@ -146,6 +155,9 @@
         if (e.key === 'p' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/Privacy";
         }
+        if (e.key === 'a' && document.activeElement.id !== "book-searchbar") {
+            window.location.href = "/Home/About";
+        }
     });
 
     document.addEventListener("click", async (e) => {
@@ -166,8 +178,20 @@
             loggedInDropdownMenu.classList.toggle('d-none');
             menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
 
+            if(menuOpen) {
+                accountMenu.addEventListener("mouseover", () => {
+                    alternateAccountMenu.classList.remove("d-none");
+                    accountMenu.classList.add("d-none");
+                    alternateAccountMenu.addEventListener("mouseout", () => {
+                        accountMenu.classList.remove("d-none");
+                        alternateAccountMenu.classList.add("d-none");
+                    })
+                })
+                
+            }
+
             const statsDropdown = document.getElementById("statsDropdown");
-               if (statsDropdown && statsDropdown.dataset.loaded === "false") {
+            if (statsDropdown && statsDropdown.dataset.loaded === "false") {
                 const response = await fetch('/Books/UserStats');
                 const html = await response.text();
                 statsDropdown.innerHTML = html;
@@ -178,6 +202,10 @@
             menuOpen = !loggedOutDropdownMenu.classList.contains('d-none');
         }
     });
+
+    alternateAccountMenu.addEventListener("click", () => {
+        window.location.href = '/Account/PfpImgChange'
+    })
 
     darkModeButton.addEventListener("click", darkModeButtonFunctions);
 

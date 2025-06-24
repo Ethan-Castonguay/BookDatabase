@@ -194,5 +194,10 @@ namespace BookDatabase.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult PfpImgChange()
+        {
+            return View();
+        }
+
     }
 }
