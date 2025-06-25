@@ -69,7 +69,7 @@
                 <th id="table-id" style="cursor: pointer">Id &uarr;</th>
                 <th>Status</th>
                 <th id="table-title" style="cursor: pointer">Title</th>
-                <th>Date of Publication</th>
+                <th id="table-date" style="cursor: pointer">Publication Year</th>
                 <th id="table-author" style="cursor: pointer">Author</th>
                 <th>Image</th>
                 <th>Action</th>
@@ -121,6 +121,7 @@
 <script>
     const tableIdButton = document.getElementById("table-id");
     const tableTitleButton = document.getElementById("table-title");
+    const tableDateButton = document.getElementById("table-date");
     const tableAuthorButton = document.getElementById("table-author");
     const sortForm = document.getElementById("sort-form");
     const selectedInput = document.getElementById("selected-input");
@@ -133,8 +134,11 @@
     } else if (selected === "title") {
         tableTitleButton.innerHTML = !directionDown ? "Title &uarr;" : "Title &darr;";
         tableIdButton.innerHTML = "Id";
-    } else {
+    } else if (selected === "author"){
         tableAuthorButton.innerHTML = !directionDown ? "Author &uarr;" : "Author &darr;";
+        tableIdButton.innerHTML = "Id";
+    } else {
+        tableDateButton.innerHTML = !directionDown ? "Publication Year &uarr;" : "Publication Year &darr;";
         tableIdButton.innerHTML = "Id";
     }
 
@@ -183,6 +187,24 @@
             tableAuthorButton.innerHTML = "Author &darr;";
             directionDown = true;
             selected = "author";
+        }
+
+        selectedInput.value = selected;
+        isDownInput.value = directionDown.toString();
+        sortForm.submit();
+    })
+
+    tableDateButton.addEventListener("click", () => {
+        if (selected == "date") {
+            tableAuthorButton.innerHTML = directionDown ? "Publication Year &uarr;" : "Publication Year &darr;";
+            directionDown = !directionDown;
+        } else {
+            tableIdButton.innerHTML = "Id"
+            tableTitleButton.innerHTML = "Title";
+            tableAuthorButton.innerHTML = "Author &darr;";
+            tableDateButton.innerHTML = "Publication Year &darr;";
+            directionDown = true;
+            selected = "date";
         }
 
         selectedInput.value = selected;

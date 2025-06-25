@@ -47,6 +47,8 @@ namespace BookDatabase.Controllers
                 ("title", "false") => books.OrderByDescending(b => b.title),
                 ("author", "true") => books.OrderBy(b => b.author),
                 ("author", "false") => books.OrderByDescending(b => b.author),
+                ("date", "true") => books.OrderBy(b => b.publicationYear),
+                ("date", "false") => books.OrderByDescending(b => b.publicationYear),
                 _ => isDown == "false" ? books.OrderBy(b => b.Id) : books.OrderByDescending(b => b.Id)
             };
 
