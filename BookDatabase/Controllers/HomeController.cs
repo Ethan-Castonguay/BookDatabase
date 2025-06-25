@@ -40,13 +40,42 @@ namespace BookDatabase.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             return View();
         }
-
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             return View();
         }
 

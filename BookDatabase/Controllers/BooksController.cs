@@ -21,8 +21,23 @@ namespace BookDatabase.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string selected = "id", string isDown = "true")
+        public async Task<IActionResult> Index(string selected = "id", string isDown = "true")
         {
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             var userId = userManager.GetUserId(User);
             var books = context.Books.Where(b => b.UserId == userId);
 
@@ -68,8 +83,23 @@ namespace BookDatabase.Controllers
             return Content(html, "text/html");
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             return View();
         }
 
@@ -127,8 +157,23 @@ namespace BookDatabase.Controllers
             return RedirectToAction("Index", "Books");
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
             var userId = userManager.GetUserId(User);
             //in the Books table, find the match or return null, the book must have the correct id and the users id must match the one logged in right now
             var book = context.Books.FirstOrDefault(b => b.Id == id && b.UserId == userId);
