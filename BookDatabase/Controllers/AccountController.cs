@@ -34,7 +34,7 @@ namespace BookDatabase.Controllers
                 var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
                 if (pfp != null && pfp.ImageFileName != null)
                 {
-                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace BookDatabase.Controllers
                 var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
                 if (pfp != null && pfp.ImageFileName != null)
                 {
-                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
                 }
                 else
                 {
@@ -225,6 +225,48 @@ namespace BookDatabase.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemovePfp()
+        {
+            var userId = _userManager.GetUserId(User);
+            var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == userId);
+
+
+            if (pfp == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", Path.GetFileName(pfp.ImageFileName));
+
+
+            Console.WriteLine(environment.WebRootPath);
+            Console.WriteLine(pfp.ImageFileName);
+            Console.WriteLine(fullImagePath);
+
+            if (System.IO.File.Exists(fullImagePath))
+            {
+                Console.WriteLine("2");
+                try
+                {
+                    Console.WriteLine("3");
+                    System.IO.File.SetAttributes(fullImagePath, FileAttributes.Normal);
+                    System.IO.File.Delete(fullImagePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("4");
+                    Console.WriteLine($"Could not delete old image: {ex.Message}");
+                }
+            }
+
+            context.pfpImgs.Remove(pfp);
+            context.SaveChanges(true);
+
             return RedirectToAction("Index", "Home");
         }
 

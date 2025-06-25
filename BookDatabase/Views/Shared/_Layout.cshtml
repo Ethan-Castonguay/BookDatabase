@@ -89,6 +89,19 @@
                                     <h6 class="mb-2 user-menu">Hello, @User.Identity?.Name</h6>
                                     <ul id="statsDropdown" data-loaded="false" style="padding-left: 0; list-style: none;"></ul>
                                     <div class="d-flex align-items-center gap-2 mb-2 user-menu">
+                                        @if (User.Identity?.IsAuthenticated ?? false)
+                                        {
+                                            var path = Url.Content(ViewBag.ProfileImgPath) ?? "";
+                                            var defaultPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+
+                                            if (!string.IsNullOrWhiteSpace(path) && !path.Equals(defaultPath, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                <form asp-controller="Account" asp-action="RemovePfp" method="post" id="removePfp">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;" onclick="return confirm('are you sure?')">Remove pfp</button>
+                                                </form>
+                                            }
+                                        }
                                         <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" class="nav-link btn btn-link" style="color: deepskyblue; text-decoration: underline;">Logout</button>
@@ -132,7 +145,6 @@
 </html>
 
 <script>
-    //Once the new pfp is in place the alternate image should no longer appear *ON EVERY PAGE, CURRENTLY ONLY WORKS ON HOME PAGE*
     //a button labeled "remove pfp" should appear and when clicked simply deletes the users custom pfp and returns to the default
     const isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 

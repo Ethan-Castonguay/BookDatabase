@@ -28,7 +28,7 @@ namespace BookDatabase.Controllers
                 var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
                 if (pfp != null && pfp.ImageFileName != null)
                 {
-                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace BookDatabase.Controllers
                 var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
                 if (pfp != null && pfp.ImageFileName != null)
                 {
-                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace BookDatabase.Controllers
                 var pfp = _context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
                 if (pfp != null && pfp.ImageFileName != null)
                 {
-                    ViewBag.ProfileImgPath = "/Images/" + pfp.ImageFileName;
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
                 }
                 else
                 {
