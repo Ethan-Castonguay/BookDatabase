@@ -241,7 +241,7 @@ namespace BookDatabase.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", Path.GetFileName(pfp.ImageFileName));
+            string fullImagePath = Path.Combine(environment.WebRootPath, "Images", Path.GetFileName(pfp.ImageFileName)!);
 
 
             Console.WriteLine(environment.WebRootPath);
@@ -250,16 +250,13 @@ namespace BookDatabase.Controllers
 
             if (System.IO.File.Exists(fullImagePath))
             {
-                Console.WriteLine("2");
                 try
                 {
-                    Console.WriteLine("3");
                     System.IO.File.SetAttributes(fullImagePath, FileAttributes.Normal);
                     System.IO.File.Delete(fullImagePath);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("4");
                     Console.WriteLine($"Could not delete old image: {ex.Message}");
                 }
             }
