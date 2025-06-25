@@ -33,26 +33,102 @@
             
         </div>
         <div class="col d-flex align-items-start justify-content-end">
+            <p class="mb-0" style="font-size: 24px;">📦 [</p>
             <div class="position-relative">
-                <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">☰</p>
-
+               
+                <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
+                
                 <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
                 
-                        <h6 class="mb-2">Show only:</h6>
+                        <h6 class="mb-2">Show only (ownership):</h6>
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <input id="optionOwned" type="radio" name="option" value="Owned" />
+                            <input id="optionOwned" type="radio" name="ownershipOption" value="Owned" />
                             <label for="optionOwned" class="mb-0">Owned books</label>
                         </div>
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <input id="optionNotOwned" type="radio" name="option" value="Not-Owned" />
+                            <input id="optionNotOwned" type="radio" name="ownershipOption" value="Not-Owned" />
                             <label for="optionNotOwned" class="mb-0">Books to buy</label>
                         </div>
                         <div class="d-flex align-items-center gap-2">
-                            <input id="optionUnentered" type="radio" name="option" value="Unentered" />
+                            <input id="optionUnentered" type="radio" name="ownershipOption" value="Unentered" />
                             <label for="optionUnentered" class="mb-0">Books w/o status</label>
                         </div>
                 </div>
             </div>
+            <p class="mb-0" style="font-size: 24px; margin-right: 20px;">]</p>
+
+            <p class="mb-0" style="font-size: 24px;">🏷️ [</p>
+            <div class="position-relative">
+               
+                <p id="genre-menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
+                
+                <div id="genre-dropdown-menu" class="card p-3 position-absolute d-none" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+                
+                        <h6 class="mb-2">Show only (Genre):</h6>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionFantasy" type="radio" name="genreOption" value="Fantasy" />
+                            <label for="optionFantasy" class="mb-0">Fantasy</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionSciFi" type="radio" name="genreOption" value="Sci-Fi" />
+                            <label for="optionSciFi" class="mb-0">Science Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionMystery" type="radio" name="genreOption" value="Mystery" />
+                            <label for="optionMystery" class="mb-0">Mystery</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionThriller" type="radio" name="genreOption" value="Thriller" />
+                            <label for="optionThriller" class="mb-0">Thriller</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionRomance" type="radio" name="genreOption" value="Romance" />
+                            <label for="optionRomance" class="mb-0">Romance</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHorror" type="radio" name="genreOption" value="Horror" />
+                            <label for="optionHorror" class="mb-0">Horror</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHistFi" type="radio" name="genreOption" value="Hist-Fi" />
+                            <label foroptionHistFi class="mb-0">Historical Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionContempFi" type="radio" name="genreOption" value="Contemp-Fi" />
+                            <label for="optionContempFi" class="mb-0">Contemp. Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionBiography" type="radio" name="genreOption" value="Biography" />
+                            <label for="optionBiography" class="mb-0">Biography</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionSelfHelp" type="radio" name="genreOption" value="Self-Help" />
+                            <label for="optionSelfHelp" class="mb-0">Self-Help</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionScience" type="radio" name="genreOption" value="Science" />
+                            <label for="optionScience" class="mb-0">Science</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHistory" type="radio" name="genreOption" value="History" />
+                            <label for="optionHistory" class="mb-0">History</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionYA" type="radio" name="genreOption" value="YA" />
+                            <label for="optionYA" class="mb-0">Young Adult</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionChildren" type="radio" name="genreOption" value="Children" />
+                            <label for="optionChildren" class="mb-0">Children's</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionOther" type="radio" name="genreOption" value="Other" />
+                            <label for="optionOther" class="mb-0">Other</label>
+                        </div>
+                </div>
+            </div>
+            <p class="mb-0" style="font-size: 24px;">]</p>
+
         </div>
     </div>
 
@@ -84,7 +160,8 @@
                 var status = book.Status ?? "Unentered";
                 var title = book.title ?? "";
                 var author = book.author ?? "";
-                <tr data-status="@status" data-title="@title" data-author="@author">
+                var genre = book.genre ?? "";
+                <tr data-status="@status" data-title="@title" data-author="@author" data-genre="@genre">
                     <td>@book.Id</td>
                     <td>@book.Status</td>
                     <td>@book.title</td>
@@ -142,7 +219,6 @@
         tableIdButton.innerHTML = "Id";
     }
 
-    //problems: takes two clicks for the id and only the id, the others work on first click. Arrows don't work whatsoever
     tableIdButton.addEventListener("click", () => {
         if (selected == "id") {
             tableIdButton.innerHTML = directionDown ? "Id &uarr;" : "Id &darr;";
@@ -222,13 +298,17 @@
     const paginationContainer = document.getElementById("pagination-buttons")
     const pageSizeWheel = document.getElementById("page-size");
     const hamburgerMenu = document.getElementById("menu-toggle");
+    const genreHamburgerMenu = document.getElementById("genre-menu-toggle");
     const dropdownMenu = document.getElementById("dropdown-menu");
+    const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
 
     let rowsPerPage = 5;
-    let filterRestrictedRows = [...allRows];
+    let filterOwnershipRestrictedRows = [...allRows];
+    let filterGenreRestrictedRows = [...allRows];
     let filteredRows = [...allRows];
     let currentPage = 1;
     let isBurgerRotated = false;
+    let isGenreBurgerRotated = false;
     let selectedRadio = null;
 
     //Keyboard shortcuts
@@ -249,7 +329,13 @@
                     hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
                     hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
             }
-            
+
+            if (!genreDropdownMenu.classList.contains("d-none")) {
+                genreDropdownMenu.classList.add("d-none");
+                isGenreBurgerRotated = !isGenreBurgerRotated;
+                genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+                genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+            }
         }
         if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
             currentPage += 1;
@@ -263,10 +349,33 @@
 
     //Hamburger menu
     hamburgerMenu.addEventListener("click", () => {
+
+        if (!genreDropdownMenu.classList.contains("d-none")) {
+            genreDropdownMenu.classList.add("d-none");
+            isGenreBurgerRotated = !isGenreBurgerRotated;
+            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+
         dropdownMenu.classList.toggle('d-none');
         isBurgerRotated = !isBurgerRotated;
         hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
         hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+    })
+
+    genreHamburgerMenu.addEventListener("click", () => {
+
+        if (!dropdownMenu.classList.contains("d-none")) {
+            dropdownMenu.classList.add("d-none");
+            isBurgerRotated = !isBurgerRotated;
+            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+
+        genreDropdownMenu.classList.toggle('d-none');
+        isGenreBurgerRotated = !isGenreBurgerRotated;
+        genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+        genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
     })
 
     searchbar.addEventListener("click", () => {
@@ -275,6 +384,12 @@
             isBurgerRotated = !isBurgerRotated;
             hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
             hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+        if (!genreDropdownMenu.classList.contains("d-none")) {
+            genreDropdownMenu.classList.add("d-none");
+            isGenreBurgerRotated = !isGenreBurgerRotated;
+            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
         }
     })
 
@@ -285,17 +400,23 @@
             hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
             hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
         }
+        if (!genreDropdownMenu.classList.contains("d-none")) {
+            genreDropdownMenu.classList.add("d-none");
+            isGenreBurgerRotated = !isGenreBurgerRotated;
+            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
     })
 
-    //dropdown menu
-    document.querySelectorAll('input[type="radio"][name="option"]').forEach(radio => {
+    //dropdown ownership menu
+    document.querySelectorAll('input[type="radio"][name="ownershipOption"]').forEach(radio => {
         radio.addEventListener('click', function () {
 
             if (selectedRadio === this) {
                 this.checked = false;
                 selectedRadio = null;
 
-                filterRestrictedRows = allRows;
+                filterOwnershipRestrictedRows = allRows;
                 filterRows();
                 updateTableDisplay();
                 return;
@@ -304,8 +425,33 @@
 
             const selectedValue = this.value;
 
-            filterRestrictedRows = allRows.filter(row => {
+            filterOwnershipRestrictedRows = allRows.filter(row => {
                 return row.dataset.status === selectedValue;
+            });
+            filterRows();
+            updateTableDisplay();
+        });
+    });
+
+    //dropdown genre menu
+    document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(radio => {
+        radio.addEventListener('click', function () {
+
+            if (selectedRadio === this) {
+                this.checked = false;
+                selectedRadio = null;
+
+                filterGenreRestrictedRows = allRows;
+                filterRows();
+                updateTableDisplay();
+                return;
+            }
+            selectedRadio = this;
+
+            const selectedValue = this.value;
+
+            filterGenreRestrictedRows = allRows.filter(row => {
+                return row.dataset.genre === selectedValue;
             });
             filterRows();
             updateTableDisplay();
@@ -354,7 +500,7 @@
         filteredRows = allRows.filter(row => {
             const title = row.dataset.title.toLowerCase() || "";
             const author = row.dataset.author.toLowerCase() || "";
-            return (title.includes(term) || author.includes(term)) && filterRestrictedRows.includes(row);
+            return (title.includes(term) || author.includes(term)) && filterOwnershipRestrictedRows.includes(row) && filterGenreRestrictedRows.includes(row) ;
         });
 
         currentPage = 1;
