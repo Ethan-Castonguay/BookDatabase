@@ -23,8 +23,8 @@
     <div class="row mb-5">
         <div class="col">
             <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
-            <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 45px;"/>
-                <label for="page-size" style="margin-left: 65px;">Books per page</label>
+            <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 55px;"/>
+                <label for="page-size" style="margin-left: 55px;">Books per page</label>
                 <select name="page-size" id="page-size">
                     <option value=5>5</option>
                     <option value=10>10</option>
@@ -33,29 +33,7 @@
             
         </div>
         <div class="col d-flex align-items-start justify-content-end">
-            <p class="mb-0" style="font-size: 24px;">📦 [</p>
-            <div class="position-relative">
-               
-                <p id="menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
-                
-                <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
-                
-                        <h6 class="mb-2">Show only (ownership):</h6>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <input id="optionOwned" type="radio" name="ownershipOption" value="Owned" />
-                            <label for="optionOwned" class="mb-0">Owned books</label>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <input id="optionNotOwned" type="radio" name="ownershipOption" value="Not-Owned" />
-                            <label for="optionNotOwned" class="mb-0">Books to buy</label>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <input id="optionUnentered" type="radio" name="ownershipOption" value="Unentered" />
-                            <label for="optionUnentered" class="mb-0">Books w/o status</label>
-                        </div>
-                </div>
-            </div>
-            <p class="mb-0" style="font-size: 24px; margin-right: 20px;">]</p>
+            
 
             <p class="mb-0" style="font-size: 24px;">🏷️ [</p>
             <div class="position-relative">
@@ -129,6 +107,29 @@
             </div>
             <p class="mb-0" style="font-size: 24px;">]</p>
 
+            <p class="mb-0" style="font-size: 24px;">📦 [</p>
+            <div class="position-relative">
+
+                <p id="ownership-menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
+
+                <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+
+                    <h6 class="mb-2">Show only (ownership):</h6>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input id="optionOwned" type="radio" name="ownershipOption" value="Owned" />
+                        <label for="optionOwned" class="mb-0">Owned books</label>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input id="optionNotOwned" type="radio" name="ownershipOption" value="Not-Owned" />
+                        <label for="optionNotOwned" class="mb-0">Books to buy</label>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <input id="optionUnentered" type="radio" name="ownershipOption" value="Unentered" />
+                        <label for="optionUnentered" class="mb-0">Books w/o status</label>
+                    </div>
+                </div>
+            </div>
+            <p class="mb-0" style="font-size: 24px; margin-right: 20px;">]</p>
         </div>
     </div>
 
@@ -297,18 +298,18 @@
     const searchbar = document.getElementById("book-searchbar");
     const paginationContainer = document.getElementById("pagination-buttons")
     const pageSizeWheel = document.getElementById("page-size");
-    const hamburgerMenu = document.getElementById("menu-toggle");
     const genreHamburgerMenu = document.getElementById("genre-menu-toggle");
-    const dropdownMenu = document.getElementById("dropdown-menu");
+    const ownershipHamburgerMenu = document.getElementById("ownership-menu-toggle");
     const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
+    const ownershipDropdownMenu = document.getElementById("dropdown-menu");
 
     let rowsPerPage = 5;
-    let filterOwnershipRestrictedRows = [...allRows];
     let filterGenreRestrictedRows = [...allRows];
+    let filterOwnershipRestrictedRows = [...allRows];
     let filteredRows = [...allRows];
     let currentPage = 1;
-    let isBurgerRotated = false;
     let isGenreBurgerRotated = false;
+    let isOwnershipBurgerRotated = false;
     let selectedRadio = null;
 
     //Keyboard shortcuts
@@ -316,6 +317,7 @@
         if (e.key === 'n' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Books/Create";
         }
+
         if (e.key === '/' && document.activeElement.id === "book-searchbar") {
             searchbar.blur();
             searchbar.value = "";
@@ -323,11 +325,11 @@
         }
         else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
             searchbar.focus();
-            if (!dropdownMenu.classList.contains("d-none")) {
-                dropdownMenu.classList.add("d-none");
-                    isBurgerRotated = !isBurgerRotated;
-                    hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-                    hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+            if (!ownershipDropdownMenu.classList.contains("d-none")) {
+                ownershipDropdownMenu.classList.add("d-none");
+                    isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+                    ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+                    ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
             }
 
             if (!genreDropdownMenu.classList.contains("d-none")) {
@@ -337,6 +339,14 @@
                 genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
             }
         }
+        
+        //This is next: when the hamburger menus are open you can use the arrows to change the filter to the immediate next category
+        if (e.key === 'ArrowUp' && (!genreDropdownMenu.classList.contains("d-none") || !ownershipDropdownMenu.classList.contains("d-none"))){
+
+        }
+        if (e.key === 'ArrowDown' && (!genreDropdownMenu.classList.contains("d-none") || !ownershipDropdownMenu.classList.contains("d-none"))){
+
+        }
         if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
             currentPage += 1;
             updateTableDisplay();
@@ -345,45 +355,26 @@
             currentPage -= 1;
             updateTableDisplay();
         }
+
+        if(e.key === 'i' && document.activeElement.id !== "book-searchbar") {
+            openGenreHamburger();
+        }
+        if(e.key === 'o' && document.activeElement.id !== "book-searchbar") {
+            openOwnershipHamburger();
+        }
     })
 
     //Hamburger menu
-    hamburgerMenu.addEventListener("click", () => {
-
-        if (!genreDropdownMenu.classList.contains("d-none")) {
-            genreDropdownMenu.classList.add("d-none");
-            isGenreBurgerRotated = !isGenreBurgerRotated;
-            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-        }
-
-        dropdownMenu.classList.toggle('d-none');
-        isBurgerRotated = !isBurgerRotated;
-        hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-        hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-    })
-
-    genreHamburgerMenu.addEventListener("click", () => {
-
-        if (!dropdownMenu.classList.contains("d-none")) {
-            dropdownMenu.classList.add("d-none");
-            isBurgerRotated = !isBurgerRotated;
-            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-        }
-
-        genreDropdownMenu.classList.toggle('d-none');
-        isGenreBurgerRotated = !isGenreBurgerRotated;
-        genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-        genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-    })
+    genreHamburgerMenu.addEventListener("click", openGenreHamburger);
+    ownershipHamburgerMenu.addEventListener("click", openOwnershipHamburger);
+    
 
     searchbar.addEventListener("click", () => {
-        if (!dropdownMenu.classList.contains("d-none")) {
-            dropdownMenu.classList.add("d-none");
-            isBurgerRotated = !isBurgerRotated;
-            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        if (!ownershipDropdownMenu.classList.contains("d-none")) {
+            ownershipDropdownMenu.classList.add("d-none");
+            isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+            ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
         }
         if (!genreDropdownMenu.classList.contains("d-none")) {
             genreDropdownMenu.classList.add("d-none");
@@ -394,11 +385,11 @@
     })
 
     pageSizeWheel.addEventListener("click", () => {
-        if (!dropdownMenu.classList.contains("d-none")) {
-            dropdownMenu.classList.add("d-none");
-            isBurgerRotated = !isBurgerRotated;
-            hamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-            hamburgerMenu.style.transform = isBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        if (!ownershipDropdownMenu.classList.contains("d-none")) {
+            ownershipDropdownMenu.classList.add("d-none");
+            isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+            ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
         }
         if (!genreDropdownMenu.classList.contains("d-none")) {
             genreDropdownMenu.classList.add("d-none");
@@ -506,6 +497,35 @@
         currentPage = 1;
         updateTableDisplay();
     }
+
+    function openGenreHamburger() {
+        if (!ownershipDropdownMenu.classList.contains("d-none")) {
+            ownershipDropdownMenu.classList.add("d-none");
+            isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+            ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+
+        genreDropdownMenu.classList.toggle('d-none');
+        isGenreBurgerRotated = !isGenreBurgerRotated;
+        genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+        genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+    }
+
+    function openOwnershipHamburger() {
+        if (!genreDropdownMenu.classList.contains("d-none")) {
+            genreDropdownMenu.classList.add("d-none");
+            isGenreBurgerRotated = !isGenreBurgerRotated;
+            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+
+        ownershipDropdownMenu.classList.toggle('d-none');
+        isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+        ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+        ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+    }
+
 
     // Initial setup
     searchbar.addEventListener("input", filterRows);
