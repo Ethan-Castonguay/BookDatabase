@@ -1,0 +1,74 @@
+﻿
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="about-container" style="max-width: 800px; margin: 2rem auto; padding: 1rem;">
+    <h1 class="text-3xl font-bold mb-4">Settings</h1>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2">General</h2>
+    <ul class="list-disc list-inside space-y-1 mb-4">
+        <li>
+            <button>Change Username</button>
+        </li>
+        <li>
+            <h3 class="mb-2">Keyboard Shortcuts</h3>
+            <ul>
+                <li><h5>Usable Everywhere</h5></li>
+                <ul>
+                    <li>Go to Home page: 'h'</li>
+                    <li>Go to Books page: 'b'</li>
+                    <li>Go to Privacy page: 'p'</li>
+                    <li>Go to About page: 'a'</li>
+                    <li>Go to Settings page: 's'</li>
+                    <li>Toggle Dark Mode: 'm'</li>
+                </ul>
+            </ul>
+                    
+            <ul>
+                <li><h5>Used in Books page</h5></li>
+                <ul>
+                    <li>Create New Book: 'n'</li>
+                    <li>Focus on Searchbar: '/'</li>
+                    <li>Open Genre Filter Dropdown Menu: 'i'</li>
+                    <li>Open Ownership Filter Dropdown Menu: 'o'</li>
+                    <li>Maneuver Upwards in Filter Menus: 'UpArrow'</li>
+                    <li>Maneuver Downwards in Filter Menus: 'DownArrow'</li>
+                    <li>Go to next Book Page: 'RightArrow'</li>
+                    <li>Go to previous Book Page: 'LeftArrow'</li>
+                </ul>
+            </ul>
+            
+        </li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mt-6 mb-2">Books</h2>
+    <ul class="list-disc list-inside space-y-1 mb-4">
+        <li>
+            <div class="d-flex justify-content-start align-items-center gap-3 mb-2">
+                <p class="mb-0 me-2">Default View Option for Books</p>
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+                <i class="fas fa-table fa-2x" title="Table View" style="cursor: pointer;"></i>
+                <i class="fas fa-id-badge fa-2x" title="Card View" style="cursor: pointer;"></i>
+            </div>
+        </li>
+        <li>
+            <div class="d-flex justify-content-start align-items-center gap-3 mb-2">
+                <label for="page-size"> Default Books per page</label>
+                <select name="page-size" id="page-size">
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=20>20</option>
+                </select>
+            </div>
+        </li>
+    </ul>
+
+    <div class="button-container">
+        <button class="btn btn-primary">Confirm Changes</button>
+        <button class="btn btn-secondary ms-2">Exit Page</button>
+    </div>
+</div>
+

@@ -94,8 +94,13 @@
                                 <img id="darkModeToggle" src="~/Images/DarkModeToggleImg-modified.png" width="65px;" style="cursor:pointer;" title="Dark mode toggle"/>
 
                                 <div id="account-loggedin-dropdown-menu" class="card p-3 d-none position-absolute user-menu" style="top: 100px; right: 0; z-index: 1000; width: 200px;">
-                                    <h6 class="mb-2 user-menu">Hello, @User.Identity?.Name</h6>
-                                    <ul id="statsDropdown" data-loaded="false" style="padding-left: 0; list-style: none;"></ul>
+                                    
+                                    <div class="d-flex justify-content-start align-items-center mb-2">
+                                        <h6 class="mb-0 me-2">Hello, @User.Identity?.Name</h6>
+                                        <span id="settingsButton" style="cursor: pointer;">⚙️</span>
+                                    </div>
+ 
+                                    <ul id="statsDropdown" class="text-start" data-loaded="false" style="padding-left: 0; list-style: none;"></ul>
                                     <div class="d-flex align-items-center gap-2 mb-2 user-menu">
                                         @if (User.Identity?.IsAuthenticated ?? false)
                                         {
@@ -156,10 +161,10 @@
     //a button labeled "remove pfp" should appear and when clicked simply deletes the users custom pfp and returns to the default
     const isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 
-
     const accountMenu = document.getElementById("accountMenuButton");
     const alternateAccountMenu = document.getElementById("accountMenuAlternateButton");
     const customAccountMenu = document.getElementById("customAccountMenuButton");
+    const settingsButton = document.getElementById("settingsButton");
     const darkModeButton = document.getElementById("darkModeToggle");
     let isRotated = false
     let menuOpen = false
@@ -197,6 +202,9 @@
         }
         if (e.key === 'a' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/About";
+        }
+        if (e.key === 's' && document.activeElement.id !== "book-searchbar") {
+            window.location.href = "/Account/Settings";
         }
     });
 
@@ -307,4 +315,7 @@
         })
     })
 
+    settingsButton.addEventListener("click", () => {
+        window.location.href = '/Account/Settings';
+    })
 </script>
