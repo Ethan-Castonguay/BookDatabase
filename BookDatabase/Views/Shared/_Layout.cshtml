@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookDatabase.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         #darkModeToggle {
             border: 1px solid white;
@@ -202,6 +203,9 @@
         }
         if (e.key === 'a' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/About";
+        }
+        if (e.key === 'd' && document.activeElement.id !== "book-searchbar") {
+            window.location.href = "/Books/Index2";
         }
         if (e.key === 's' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Account/Settings";

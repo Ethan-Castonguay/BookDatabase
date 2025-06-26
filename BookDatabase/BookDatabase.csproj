@@ -35,4 +35,8 @@
     <Content Include="Views\Books\Edit.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Views\Books\Index2.cshtml" />
+  </ItemGroup>
+
 </Project>

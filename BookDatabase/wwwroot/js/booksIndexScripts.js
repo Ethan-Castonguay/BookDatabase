@@ -1,5 +1,4 @@
-﻿console.log("hello again");
-
+﻿
 const tableBody = document.getElementById("book-table-body");
 const allRows = Array.from(tableBody.querySelectorAll("tr"));
 
@@ -10,6 +9,8 @@ const genreHamburgerMenu = document.getElementById("genre-menu-toggle");
 const ownershipHamburgerMenu = document.getElementById("ownership-menu-toggle");
 const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
 const ownershipDropdownMenu = document.getElementById("dropdown-menu");
+
+const cardViewButton = document.getElementById("cardLink");
 
 let rowsPerPage = 5;
 let filterGenreRestrictedRows = [...allRows];
@@ -70,6 +71,10 @@ document.addEventListener("keyup", (e) => {
     if (e.key === 'o' && document.activeElement.id !== "book-searchbar") {
         openOwnershipHamburger();
     }
+})
+
+cardViewButton.addEventListener("click", () => {
+    window.location.href = '/Books/Index2';
 })
 
 //Hamburger menu

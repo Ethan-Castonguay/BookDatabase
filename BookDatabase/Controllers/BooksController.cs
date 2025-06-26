@@ -62,6 +62,11 @@ namespace BookDatabase.Controllers
             return View(sorter);
         }
 
+        public IActionResult Index2()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> UserStats()
         {

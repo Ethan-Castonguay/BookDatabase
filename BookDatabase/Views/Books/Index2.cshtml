@@ -1,0 +1,186 @@
+﻿
+@{
+}
+
+<html>
+<head>
+    <style>
+        #book-searchbar {
+            border-radius: 5px;
+        }
+
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            justify-items: center;
+        }
+
+        .gallery-item {
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+            .gallery-item img {
+                width: 100%;
+                height: auto;
+                max-height: 240px;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+        .gallery-title {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #eee;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="logged-in-table">
+        <h1 class="text-center mb-5">List of Books</h1>
+        <div class="row mb-5">
+            <div class="col">
+                <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+                <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 55px;" />
+                <label for="page-size" style="margin-left: 55px;">Books per page</label>
+                <select name="page-size" id="page-size">
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=20>20</option>
+                </select>
+
+            </div>
+            <div class="col d-flex align-items-start justify-content-end">
+
+
+                <p class="mb-0" style="font-size: 24px;">🏷️ [</p>
+                <div class="position-relative">
+
+                    <p id="genre-menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
+
+                    <div id="genre-dropdown-menu" class="card p-3 position-absolute d-none" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+
+                        <h6 class="mb-2">Show only (Genre):</h6>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionFantasy" class="1" type="radio" name="genreOption" value="Fantasy" />
+                            <label for="optionFantasy" class="mb-0">Fantasy</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionSciFi" class="2" type="radio" name="genreOption" value="Sci-Fi" />
+                            <label for="optionSciFi" class="mb-0">Science Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionMystery" class="3" type="radio" name="genreOption" value="Mystery" />
+                            <label for="optionMystery" class="mb-0">Mystery</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionThriller" class="4" type="radio" name="genreOption" value="Thriller" />
+                            <label for="optionThriller" class="mb-0">Thriller</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionRomance" class="5" type="radio" name="genreOption" value="Romance" />
+                            <label for="optionRomance" class="mb-0">Romance</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHorror" class="6" type="radio" name="genreOption" value="Horror" />
+                            <label for="optionHorror" class="mb-0">Horror</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHistFi" class="7" type="radio" name="genreOption" value="Hist-Fi" />
+                            <label foroptionHistFi class="mb-0">Historical Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionContempFi" class="8" type="radio" name="genreOption" value="Contemp-Fi" />
+                            <label for="optionContempFi" class="mb-0">Contemp. Fiction</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionBiography" class="9" type="radio" name="genreOption" value="Biography" />
+                            <label for="optionBiography" class="mb-0">Biography</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionSelfHelp" class="10" type="radio" name="genreOption" value="Self-Help" />
+                            <label for="optionSelfHelp" class="mb-0">Self-Help</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionScience" class="11" type="radio" name="genreOption" value="Science" />
+                            <label for="optionScience" class="mb-0">Science</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionHistory" class="12" type="radio" name="genreOption" value="History" />
+                            <label for="optionHistory" class="mb-0">History</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionYA" class="13" type="radio" name="genreOption" value="YA" />
+                            <label for="optionYA" class="mb-0">Young Adult</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionChildren" class="14" type="radio" name="genreOption" value="Children" />
+                            <label for="optionChildren" class="mb-0">Children's</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionOther" class="15" type="radio" name="genreOption" value="Other" />
+                            <label for="optionOther" class="mb-0">Other</label>
+                        </div>
+                    </div>
+                </div>
+                <p class="mb-0" style="font-size: 24px;">]</p>
+
+                <p class="mb-0" style="font-size: 24px; margin-left: 15px;">📦 [</p>
+                <div class="position-relative">
+
+                    <p id="ownership-menu-toggle" class="mb-0" style="font-size: 24px; cursor: pointer;">≡</p>
+
+                    <div id="dropdown-menu" class="card p-3 d-none position-absolute" style="top: 30px; right: 0; z-index: 1000; width: 200px;">
+
+                        <h6 class="mb-2">Show only (ownership):</h6>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <input id="optionOwned" class="21" type="radio" name="ownershipOption" value="Owned" />
+                            <label for="optionOwned" class="mb-0">Owned books</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <input id="optionNotOwned" class="22" type="radio" name="ownershipOption" value="Not-Owned" />
+                            <label for="optionNotOwned" class="mb-0">Books to buy</label>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input id="optionUnentered" class="23" type="radio" name="ownershipOption" value="Unentered" />
+                            <label for="optionUnentered" class="mb-0">Books w/o status</label>
+                        </div>
+                    </div>
+                </div>
+                <p class="mb-0" style="font-size: 24px; margin-right: 20px;">]</p>
+
+                <div class="d-flex justify-content-start align-items-center gap-3 mb-2" style="margin-left: 35px; margin-right: 35px;">
+                    <i class="fas fa-table fa-2x" title="Table View" style="cursor: pointer;"></i>
+                    <i id="cardLink" class="fas fa-id-badge fa-2x" title="Card View" style="cursor: pointer; margin-left: 20px; color: deepskyblue"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gallery-container">
+        <div class="gallery-item">
+            <img src="~/Images/20250606114539824.jpg" alt="Book 1">
+            <p class="gallery-title">Harry Potter and the Sorcerer's Stone</p>
+        </div>
+        <div class="gallery-item">
+            <img src="~/Images/20250610142110074.jpg" alt="Book 2">
+            <p class="gallery-title">Harry Potter and the Chamber of Secrets</p>
+        </div>
+        <div class="gallery-item">
+            <img src="~/Images/20250626113849542.jpg" alt="Book 3">
+            <p class="gallery-title">Harry Potter and the Prisoner of Azkaban</p>
+        </div>
+        <!-- Add more items as needed -->
+    </div>
+</body>
+</html>
