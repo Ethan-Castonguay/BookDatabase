@@ -22,7 +22,7 @@
     <h1 class="text-center mb-5">List of Books</h1>
     <div class="row mb-5">
         <div class="col">
-            <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+            <a id="indexCreateButton" class="btn btn-primary" asp-controller="Books" asp-action="Create" asp-route-destination="Index">New Book</a>
             <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 55px;"/>
                 <label for="page-size" style="margin-left: 55px;">Books per page</label>
                 <select name="page-size" id="page-size">
@@ -175,9 +175,9 @@
                     <td>@book.author</td>
                     <td><img src="~/Images/@book.ImageFileName" width="100" /></td>
                     <td style="white-space: nowrap">
-                        <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" asp-route-destination="Index">Edit</a>
                         <a class="btn btn-primary btn-sm" asp-controller="Books" asp-action="Delete" 
-                            asp-route-id="@book.Id" onclick="return confirm('are you sure?')">Delete</a>
+                            asp-route-id="@book.Id" asp-route-destination="Index" onclick="return confirm('are you sure?')">Delete</a>
                     </td>
                 </tr>
             }

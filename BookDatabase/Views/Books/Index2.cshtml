@@ -60,7 +60,7 @@
         <h1 class="text-center mb-5">List of Books</h1>
         <div class="row mb-5">
             <div class="col">
-                <a class="btn btn-primary" asp-controller="Books" asp-action="Create">New Book</a>
+                <a id="indexTwoCreateButton" class="btn btn-primary" asp-controller="Books" asp-action="Create" asp-route-destination="Index2">New Book</a>
                 <input id="book-searchbar" type="text" placeholder="search for something..." style="margin-left: 55px;" />
 
             </div>
@@ -185,10 +185,10 @@
             var author = book.author ?? "";
             var genre = book.genre ?? "";
             <div class="gallery-item" data-status="@status" data-title="@title" data-author="@author" data-genre="@genre">
-                <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"><img src="~/Images/@book.ImageFileName" alt="@book.title"></a>
+                <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" asp-route-destination="Index2"><img src="~/Images/@book.ImageFileName" alt="@book.title"></a>
                 <p class="gallery-title">@book.title</p>
                 <a class="trashButton d-none" asp-controller="Books" asp-action="Delete"
-                   asp-route-id="@book.Id" onclick="return confirm('are you sure?')"><i class="fas fa-trash"></i></a>
+                   asp-route-id="@book.Id" asp-route-destination="Index2" onclick="return confirm('are you sure?')"><i class="fas fa-trash"></i></a>
             </div>
         }
         

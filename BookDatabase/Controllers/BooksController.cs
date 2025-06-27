@@ -142,7 +142,7 @@ namespace BookDatabase.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(BookDto bookDto)
+        public IActionResult Create(string destination, BookDto bookDto)
         {
             if (bookDto.ImageFile == null)
             {
@@ -192,7 +192,7 @@ namespace BookDatabase.Controllers
             context.Books.Add(book);
             context.SaveChanges();
 
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction(destination, "Books");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -242,7 +242,7 @@ namespace BookDatabase.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(int id, BookDto bookDto)
+        public IActionResult Edit(string destination, int id, BookDto bookDto)
         {
             var book = context.Books.Find(id);
 
@@ -310,10 +310,10 @@ namespace BookDatabase.Controllers
 
             context.SaveChanges(true);
 
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction(destination, "Books");
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string destination, int id)
         {
             var userId = userManager.GetUserId(User);
             var book = context.Books.FirstOrDefault(b => b.Id == id && b.UserId == userId);
@@ -341,7 +341,7 @@ namespace BookDatabase.Controllers
             context.Books.Remove(book);
             context.SaveChanges(true);
 
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction(destination, "Books");
         }
     }
 }

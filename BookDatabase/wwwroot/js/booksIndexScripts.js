@@ -18,6 +18,8 @@ const ownershipHamburgerMenu = document.getElementById("ownership-menu-toggle");
 const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
 const ownershipDropdownMenu = document.getElementById("dropdown-menu");
 
+const indexCreateButton = document.getElementById("indexCreateButton");
+const indexTwocreateButton = document.getElementById("indexTwoCreateButton");
 const tableButton = document.getElementById("tableLink");
 const cardViewButton = document.getElementById("cardLink");
 
@@ -57,7 +59,11 @@ if (galleryItems.length > 0) {
 //Keyboard shortcuts
 document.addEventListener("keyup", (e) => {
     if (e.key === 'n' && document.activeElement.id !== "book-searchbar") {
-        window.location.href = "/Books/Create";
+        if (tableBody) {
+            indexCreateButton.click();
+        } else {
+            indexTwocreateButton.click();
+        }
     }
 
     if (e.key === '/' && document.activeElement.id === "book-searchbar") {
