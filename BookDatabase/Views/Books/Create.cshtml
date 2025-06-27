@@ -132,12 +132,15 @@
                 </div>
             </div>
 
+            <input type="hidden" id="destination" value="@Context.Request.Query["destination"]" />
+
+
             <div class="row">
                 <div class="offset-sm-4 col-sm-4 d-grid">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 <div class="col-sm-4 d-grid">
-                    <a class="btn btn-outline-primary" asp-controller="Books" asp-action="Index" role="button">Cancel</a>
+                    <a id="cancelBtn" class="btn btn-outline-primary" role="button">Cancel</a>
                 </div>
             </div>
         </form>
@@ -145,6 +148,7 @@
 </div>
 
 <script>
+    const cancelButton = document.getElementById("cancelBtn");
     const statusWheel = document.getElementById("status");
     const completionWheel = document.getElementById("completion");
 
@@ -152,6 +156,11 @@
     const ratingsDiv = document.getElementById("ratings-div");
     const reviewDiv = document.getElementById("review-div");
     const chaptersDiv = document.getElementById("chapters-div");
+
+    cancelButton.addEventListener("click", () => {
+        const destination = document.getElementById("destination").value;
+        window.location.href = `${destination}`;
+    })
 
     statusWheel.addEventListener("click", () => {
         if (statusWheel.value == "Owned") {
