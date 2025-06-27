@@ -62,9 +62,34 @@ namespace BookDatabase.Controllers
             return View(sorter);
         }
 
-        public IActionResult Index2()
+        public async Task<IActionResult> Index2()
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var pfp = context.pfpImgs.FirstOrDefault(p => p.UserId == user.Id);
+                if (pfp != null && pfp.ImageFileName != null)
+                {
+                    ViewBag.ProfileImgPath = pfp.ImageFileName;
+                }
+                else
+                {
+                    ViewBag.ProfileImgPath = Url.Content("~/Images/AnonymousProfilePicture-modified.png");
+                }
+
+            }
+
+            var userId = userManager.GetUserId(User);
+            var books = context.Books.Where(b => b.UserId == userId).OrderByDescending(b => b.Id);
+
+            var sorter = new TableSorter
+            {
+                books = books.ToList(),
+                selected = "id",
+                isDown = "true"
+            };
+
+            return View(sorter);
         }
 
         [HttpGet]

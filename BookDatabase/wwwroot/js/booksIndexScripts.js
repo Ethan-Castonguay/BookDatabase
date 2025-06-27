@@ -1,6 +1,9 @@
-﻿
+﻿let isTable = true;
 const tableBody = document.getElementById("book-table-body");
-const allRows = Array.from(tableBody.querySelectorAll("tr"));
+let allRows = [];
+if (tableBody) {
+    allRows = Array.from(tableBody.querySelectorAll("tr"));
+}
 
 const searchbar = document.getElementById("book-searchbar");
 const paginationContainer = document.getElementById("pagination-buttons")
@@ -10,6 +13,10 @@ const ownershipHamburgerMenu = document.getElementById("ownership-menu-toggle");
 const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
 const ownershipDropdownMenu = document.getElementById("dropdown-menu");
 
+//remove pageSizeWheel from Index2
+//create alternate functions for the searchbar and filter functionality since theres no table anymore
+
+const tableButton = document.getElementById("tableLink");
 const cardViewButton = document.getElementById("cardLink");
 
 let rowsPerPage = 5;
@@ -21,6 +28,25 @@ let isGenreBurgerRotated = false;
 let isOwnershipBurgerRotated = false;
 let selectedGenreRadio = null;
 let selectedOwnershipRadio = null;
+
+const galleryItems = document.querySelectorAll("div.gallery-item");
+
+tableButton.addEventListener("click", () => {
+    window.location.href = ("/Books");
+})
+
+if (galleryItems.length > 0) {
+    for (let i = 0; i < galleryItems.length; i++) {
+        galleryItems[i].addEventListener("mouseover", () => {
+            document.querySelectorAll(".trashButton")[i].classList.remove("d-none");
+
+        })
+        galleryItems[i].addEventListener("mouseout", () => {
+            document.querySelectorAll(".trashButton")[i].classList.add("d-none");
+        })
+    }
+}
+
 
 //Keyboard shortcuts
 document.addEventListener("keyup", (e) => {
@@ -126,7 +152,6 @@ document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(rad
             return;
         }
         selectedGenreRadio = this;
-        console.log(selectedGenreRadio);
 
         const selectedValue = this.value;
 
