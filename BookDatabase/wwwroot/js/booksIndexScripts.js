@@ -1,8 +1,13 @@
-﻿let isTable = true;
+﻿
 const tableBody = document.getElementById("book-table-body");
 let allRows = [];
 if (tableBody) {
     allRows = Array.from(tableBody.querySelectorAll("tr"));
+}
+
+const galleryItems = document.querySelectorAll("div.gallery-item");
+if (galleryItems) {
+    allCards = Array.from(galleryItems);
 }
 
 const searchbar = document.getElementById("book-searchbar");
@@ -21,12 +26,16 @@ let filterGenreRestrictedRows = [...allRows];
 let filterOwnershipRestrictedRows = [...allRows];
 let filteredRows = [...allRows];
 let currentPage = 1;
+
+let filterGenreRestrictedCards = allCards;
+let filterOwnershipRestrictedCards = allCards;
+let filteredCards = allCards;
+
 let isGenreBurgerRotated = false;
 let isOwnershipBurgerRotated = false;
 let selectedGenreRadio = null;
 let selectedOwnershipRadio = null;
 
-const galleryItems = document.querySelectorAll("div.gallery-item");
 
 tableButton.addEventListener("click", () => {
     window.location.href = ("/Books");
@@ -56,6 +65,8 @@ document.addEventListener("keyup", (e) => {
         searchbar.value = "";
         if (tableBody) {
             filterRows();
+        } else {
+            filterCards();
         }
     }
     else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
@@ -155,6 +166,9 @@ document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(rad
                 filterGenreRestrictedRows = allRows;
                 filterRows();
                 updateTableDisplay();
+            } else {
+                filterGenreRestrictedCards = allCards;
+                filterCards();
             }
             return;
         }
@@ -167,6 +181,12 @@ document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(rad
             });
             filterRows();
             updateTableDisplay();
+        } else {
+            const selectedValue = this.value;
+            filterGenreRestrictedCards = allCards.filter(item => {
+                return item.dataset.genre === selectedValue;
+            });
+            filterCards();
         }
     });
 });
@@ -183,18 +203,26 @@ document.querySelectorAll('input[type="radio"][name="ownershipOption"]').forEach
                 filterOwnershipRestrictedRows = allRows;
                 filterRows();
                 updateTableDisplay();
+            } else {
+                filterOwnershipRestrictedCards = allCards;
+                filterCards();
             }
             return;
         }
         selectedOwnershipRadio = this;
+        const selectedValue = this.value;
 
         if (tableBody) {
-            const selectedValue = this.value;
             filterOwnershipRestrictedRows = allRows.filter(row => {
                 return row.dataset.status === selectedValue;
             });
             filterRows();
             updateTableDisplay();
+        } else {
+            filterOwnershipRestrictedCards = allCards.filter(item => {
+                return item.dataset.status === selectedValue;
+            });
+            filterCards();
         }
     });
 });
@@ -209,7 +237,7 @@ if (pageSizeWheel) {
     })
 }
 
-
+//functions with table
 function updateTableDisplay() {
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -249,6 +277,21 @@ function filterRows() {
 
     currentPage = 1;
     updateTableDisplay();
+}
+
+//functions with card view
+
+function filterCards() {
+    const term = searchbar.value.toLowerCase();
+
+    filteredCards = allCards.filter(item => { 
+        const title = item.dataset.title.toLowerCase() || "";
+        const author = item.dataset.author.toLowerCase() || "";
+        return (title.includes(term) || author.includes(term)) && filterOwnershipRestrictedCards.includes(item) && filterGenreRestrictedCards.includes(item);
+    });
+
+    allCards.forEach(item => item.classList.add("d-none"));
+    filteredCards.forEach(item => item.classList.remove("d-none"));
 }
 
 function openGenreHamburger() {
@@ -305,6 +348,11 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
             });
             filterRows();
             updateTableDisplay();
+        } else {
+            filterGenreRestricted = galleryItems.filter(item => {
+                return item.dataset.genre === selectedValue;
+            });
+            filterCards();
         }
     }
 
@@ -334,12 +382,22 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
             });
             filterRows();
             updateTableDisplay();
+        } else {
+            filterGenreRestrictedCards = galleryItems.filter(item => {
+                return item.dataset.status === selectedValue;
+            });
+            filterCards();
         }
     }
 }
 
+
+// Initial setup
+// Load first page on startup
 if (tableBody) {
-    // Initial setup
     searchbar.addEventListener("input", filterRows);
-    filterRows(); // Load first page on startup
+    filterRows(); 
+} else {
+    searchbar.addEventListener("input", filterCards);
+    filterCards();
 }

@@ -180,14 +180,16 @@
     <div class="gallery-container">
         @foreach(var book in Model.books)
         {
-            <div class="gallery-item">
+            var status = book.Status ?? "Unentered";
+            var title = book.title ?? "";
+            var author = book.author ?? "";
+            var genre = book.genre ?? "";
+            <div class="gallery-item" data-status="@status" data-title="@title" data-author="@author" data-genre="@genre">
                 <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id"><img src="~/Images/@book.ImageFileName" alt="@book.title"></a>
                 <p class="gallery-title">@book.title</p>
                 <a class="trashButton d-none" asp-controller="Books" asp-action="Delete"
                    asp-route-id="@book.Id" onclick="return confirm('are you sure?')"><i class="fas fa-trash"></i></a>
             </div>
-            
-
         }
         
     </div>
