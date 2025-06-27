@@ -13,9 +13,6 @@ const ownershipHamburgerMenu = document.getElementById("ownership-menu-toggle");
 const genreDropdownMenu = document.getElementById("genre-dropdown-menu");
 const ownershipDropdownMenu = document.getElementById("dropdown-menu");
 
-//remove pageSizeWheel from Index2
-//create alternate functions for the searchbar and filter functionality since theres no table anymore
-
 const tableButton = document.getElementById("tableLink");
 const cardViewButton = document.getElementById("cardLink");
 
@@ -57,7 +54,9 @@ document.addEventListener("keyup", (e) => {
     if (e.key === '/' && document.activeElement.id === "book-searchbar") {
         searchbar.blur();
         searchbar.value = "";
-        filterRows();
+        if (tableBody) {
+            filterRows();
+        }
     }
     else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
         searchbar.focus();
@@ -82,13 +81,16 @@ document.addEventListener("keyup", (e) => {
     if (e.key === 'ArrowDown' && (!genreDropdownMenu.classList.contains("d-none") || !ownershipDropdownMenu.classList.contains("d-none"))) {
         filterKeyboardShortcut(1, "optionOwned", "optionUnentered", "optionFantasy", "optionOther");
     }
-    if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
-        currentPage += 1;
-        updateTableDisplay();
-    }
-    if (e.key === 'ArrowLeft' && currentPage !== 1) {
-        currentPage -= 1;
-        updateTableDisplay();
+
+    if (tableBody) {
+        if (e.key === 'ArrowRight' && currentPage !== paginationContainer.children.length) {
+            currentPage += 1;
+            updateTableDisplay();
+        }
+        if (e.key === 'ArrowLeft' && currentPage !== 1) {
+            currentPage -= 1;
+            updateTableDisplay();
+        }
     }
 
     if (e.key === 'i' && document.activeElement.id !== "book-searchbar") {
@@ -123,20 +125,23 @@ searchbar.addEventListener("click", () => {
     }
 })
 
-pageSizeWheel.addEventListener("click", () => {
-    if (!ownershipDropdownMenu.classList.contains("d-none")) {
-        ownershipDropdownMenu.classList.add("d-none");
-        isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
-        ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-        ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-    }
-    if (!genreDropdownMenu.classList.contains("d-none")) {
-        genreDropdownMenu.classList.add("d-none");
-        isGenreBurgerRotated = !isGenreBurgerRotated;
-        genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
-        genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
-    }
-})
+if (pageSizeWheel) {
+    pageSizeWheel.addEventListener("click", () => {
+        if (!ownershipDropdownMenu.classList.contains("d-none")) {
+            ownershipDropdownMenu.classList.add("d-none");
+            isOwnershipBurgerRotated = !isOwnershipBurgerRotated;
+            ownershipHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            ownershipHamburgerMenu.style.transform = isOwnershipBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+        if (!genreDropdownMenu.classList.contains("d-none")) {
+            genreDropdownMenu.classList.add("d-none");
+            isGenreBurgerRotated = !isGenreBurgerRotated;
+            genreHamburgerMenu.style.transition = 'transform 0.25s ease-in-out';
+            genreHamburgerMenu.style.transform = isGenreBurgerRotated ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+    })
+}
+
 
 //dropdown genre menu
 document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(radio => {
@@ -146,20 +151,23 @@ document.querySelectorAll('input[type="radio"][name="genreOption"]').forEach(rad
             this.checked = false;
             selectedGenreRadio = null;
 
-            filterGenreRestrictedRows = allRows;
-            filterRows();
-            updateTableDisplay();
+            if (tableBody) {
+                filterGenreRestrictedRows = allRows;
+                filterRows();
+                updateTableDisplay();
+            }
             return;
         }
         selectedGenreRadio = this;
 
-        const selectedValue = this.value;
-
-        filterGenreRestrictedRows = allRows.filter(row => {
-            return row.dataset.genre === selectedValue;
-        });
-        filterRows();
-        updateTableDisplay();
+        if (tableBody) {
+            const selectedValue = this.value;
+            filterGenreRestrictedRows = allRows.filter(row => {
+                return row.dataset.genre === selectedValue;
+            });
+            filterRows();
+            updateTableDisplay();
+        }
     });
 });
 
@@ -171,30 +179,36 @@ document.querySelectorAll('input[type="radio"][name="ownershipOption"]').forEach
             this.checked = false;
             selectedOwnershipRadio = null;
 
-            filterOwnershipRestrictedRows = allRows;
-            filterRows();
-            updateTableDisplay();
+            if (tableBody) {
+                filterOwnershipRestrictedRows = allRows;
+                filterRows();
+                updateTableDisplay();
+            }
             return;
         }
         selectedOwnershipRadio = this;
 
-        const selectedValue = this.value;
-
-        filterOwnershipRestrictedRows = allRows.filter(row => {
-            return row.dataset.status === selectedValue;
-        });
-        filterRows();
-        updateTableDisplay();
+        if (tableBody) {
+            const selectedValue = this.value;
+            filterOwnershipRestrictedRows = allRows.filter(row => {
+                return row.dataset.status === selectedValue;
+            });
+            filterRows();
+            updateTableDisplay();
+        }
     });
 });
 
 //searchbar
-pageSizeWheel.addEventListener("input", () => {
-    if (pageSizeWheel.value != rowsPerPage) {
-        rowsPerPage = pageSizeWheel.value;
-        updateTableDisplay();
-    }
-})
+if (pageSizeWheel) {
+    pageSizeWheel.addEventListener("input", () => {
+        if (pageSizeWheel.value != rowsPerPage) {
+            rowsPerPage = pageSizeWheel.value;
+            updateTableDisplay();
+        }
+    })
+}
+
 
 function updateTableDisplay() {
     const start = (currentPage - 1) * rowsPerPage;
@@ -285,11 +299,13 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
         selectedGenreRadio.checked = true
         const selectedValue = selectedGenreRadio.value;
 
-        filterGenreRestrictedRows = allRows.filter(row => {
-            return row.dataset.genre === selectedValue;
-        });
-        filterRows();
-        updateTableDisplay();
+        if (tableBody) {
+            filterGenreRestrictedRows = allRows.filter(row => {
+                return row.dataset.genre === selectedValue;
+            });
+            filterRows();
+            updateTableDisplay();
+        }
     }
 
     if (!ownershipDropdownMenu.classList.contains("d-none")) {
@@ -312,14 +328,18 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
         selectedOwnershipRadio.checked = true
         const selectedValue = selectedOwnershipRadio.value;
 
-        filterGenreRestrictedRows = allRows.filter(row => {
-            return row.dataset.status === selectedValue;
-        });
-        filterRows();
-        updateTableDisplay();
+        if (tableBody) {
+            filterGenreRestrictedRows = allRows.filter(row => {
+                return row.dataset.status === selectedValue;
+            });
+            filterRows();
+            updateTableDisplay();
+        }
     }
 }
 
-// Initial setup
-searchbar.addEventListener("input", filterRows);
-filterRows(); // Load first page on startup
+if (tableBody) {
+    // Initial setup
+    searchbar.addEventListener("input", filterRows);
+    filterRows(); // Load first page on startup
+}
