@@ -64,7 +64,9 @@ if (galleryItems.length > 0) {
 
 //Keyboard shortcuts
 document.addEventListener("keyup", (e) => {
-    if (e.key === 'n' && document.activeElement.id !== "book-searchbar") {
+    if (!window.shortcutMap) return; // avoid crash
+
+    if (e.key === shortcutMap.createBook && document.activeElement.id !== "book-searchbar") {
         if (tableBody) {
             indexCreateButton.click();
         } else {
@@ -72,7 +74,7 @@ document.addEventListener("keyup", (e) => {
         }
     }
 
-    if (e.key === '/' && document.activeElement.id === "book-searchbar") {
+    if (e.key === shortcutMap.searchbarFocus && document.activeElement.id === "book-searchbar") {
         searchbar.blur();
         searchbar.value = "";
         if (tableBody) {
@@ -81,7 +83,7 @@ document.addEventListener("keyup", (e) => {
             filterCards();
         }
     }
-    else if (e.key === '/' && document.activeElement.id !== "book-searchbar") {
+    else if (e.key === shortcutMap.searchbarFocus && document.activeElement.id !== "book-searchbar") {
         searchbar.focus();
         if (!ownershipDropdownMenu.classList.contains("d-none")) {
             ownershipDropdownMenu.classList.add("d-none");
@@ -116,10 +118,10 @@ document.addEventListener("keyup", (e) => {
         }
     }
 
-    if (e.key === 'i' && document.activeElement.id !== "book-searchbar") {
+    if (e.key === shortcutMap.genreFilter && document.activeElement.id !== "book-searchbar") {
         openGenreHamburger();
     }
-    if (e.key === 'o' && document.activeElement.id !== "book-searchbar") {
+    if (e.key === shortcutMap.ownershipFilter && document.activeElement.id !== "book-searchbar") {
         openOwnershipHamburger();
     }
 })
