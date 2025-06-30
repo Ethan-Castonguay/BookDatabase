@@ -244,6 +244,7 @@ if (pageSizeWheel) {
     pageSizeWheel.addEventListener("input", () => {
         if (pageSizeWheel.value != rowsPerPage) {
             rowsPerPage = pageSizeWheel.value;
+            currentPage = 1;
             updateTableDisplay();
         }
     })
