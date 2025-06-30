@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ViewComponents\UserShortcutSettingsViewComponent.cs" />
     <Content Include="Views\Books\Create.cshtml" />
   </ItemGroup>
 

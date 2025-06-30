@@ -1,4 +1,4 @@
-﻿
+﻿@await Component.InvokeAsync("UserShortcutSettings")
 
 <!DOCTYPE html>
 <html lang="en">
@@ -194,28 +194,30 @@
         const tag = document.activeElement.tagName.toLowerCase();
         if (["input", "textarea", "select"].includes(tag)) return;
 
-        if (e.key === 'm') {
+        if (e.key === shortcutMap.darkMode) {
             darkModeButtonFunctions();
         }
-        if (e.key === 'h' && document.activeElement.id !== "book-searchbar") {
+        if (e.key === shortcutMap.home && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/";
         }
-        if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && isAuthenticated) {
+        if (e.key === shortcutMap.books && document.activeElement.id !== "book-searchbar" && isAuthenticated) {
             window.location.href = buttonDestination;
         }
-        if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && !isAuthenticated) {
+        if (e.key === shortcutMap.books && document.activeElement.id !== "book-searchbar" && !isAuthenticated) {
             window.location.href = "/Account/Login";
         }
-        if (e.key === 'p' && document.activeElement.id !== "book-searchbar") {
+        if (e.key === shortcutMap.privacy && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/Privacy";
         }
-        if (e.key === 'a' && document.activeElement.id !== "book-searchbar") {
+        if (e.key === shortcutMap.about && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/About";
         }
-        if (e.key === 's' && document.activeElement.id !== "book-searchbar") {
+        if (e.key === shortcutMap.settings && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Account/Settings";
         }
     });
+
+
 
     if (booksButton) {
         booksButton.addEventListener("click", () => {
