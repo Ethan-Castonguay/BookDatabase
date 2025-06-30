@@ -1,4 +1,4 @@
-﻿
+﻿@model UserSettingsDto
 
 @{
     ViewData["Title"] = "Settings";
@@ -8,31 +8,114 @@
     <h1 class="text-3xl font-bold mb-4">Settings</h1>
 
     <h2 class="text-xl font-semibold mt-6 mb-2">General</h2>
+    <form method="post">
     <ul class="list-disc list-inside space-y-1 mb-4">
         <li>
             <button>Change Username</button>
         </li>
         <li>
             <h3 class="mb-2">Keyboard Shortcuts</h3>
+
+            
             <ul>
                 <li><h5>Usable Everywhere</h5></li>
                 <ul>
-                    <li>Go to Home page: 'h'</li>
-                    <li>Go to Books page: 'b'</li>
-                    <li>Go to Privacy page: 'p'</li>
-                    <li>Go to About page: 'a'</li>
-                    <li>Go to Settings page: 's'</li>
-                    <li>Toggle Dark Mode: 'm'</li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Go to Home page: </label>
+                            <div class="col-sm-8">
+                                <input id="homeShortcutInput" asp-for="homeShortcut">
+                                <span asp-validation-for="homeShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Go to Books page: </label>
+                            <div class="col-sm-8">
+                                <input id="booksShortcutInput" asp-for="booksShortcut">
+                                <span asp-validation-for="booksShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Go to Privacy page: </label>
+                            <div class="col-sm-8">
+                                <input id="privacyShortcutInput" asp-for="privacyShortcut">
+                                <span asp-validation-for="privacyShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Go to About page: </label>
+                            <div class="col-sm-8">
+                                <input id="aboutShortcutInput" asp-for="aboutShortcut">
+                                <span asp-validation-for="aboutShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Go to Settings page: </label>
+                            <div class="col-sm-8">
+                                <input id="settingsShortcutInput" asp-for="settingsShortcut">
+                                <span asp-validation-for="settingsShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Toggle Dark Mode: </label>
+                            <div class="col-sm-8">
+                                <input id="darkModeShortcutInput" asp-for="darkModeShortcut">
+                                <span asp-validation-for="darkModeShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </ul>
                     
             <ul>
                 <li><h5>Used in Books page</h5></li>
                 <ul>
-                    <li>Create New Book: 'n'</li>
-                    <li>Focus on Searchbar: '/'</li>
-                    <li>Open Genre Filter Dropdown Menu: 'i'</li>
-                    <li>Open Ownership Filter Dropdown Menu: 'o'</li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Create New Book: </label>
+                            <div class="col-sm-8">
+                                <input id="createBookShortcutInput" asp-for="createBookShortcut">
+                                <span asp-validation-for="createBookShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Focus on Searchbar: </label>
+                            <div class="col-sm-8">
+                                <input id="searchbarFocusShortcutInput" asp-for="searchbarFocusShortcut">
+                                <span asp-validation-for="searchbarFocusShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Open Genre Filter Dropdown Menu: </label>
+                            <div class="col-sm-8">
+                                <input id="genreFilterShortcutInput" asp-for="genreFilterShortcut">
+                                <span asp-validation-for="genreFilterShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label">Open Ownership Filter Dropdown Menu: </label>
+                            <div class="col-sm-8">
+                                <input id="ownershipFilterShortcutInput" asp-for="ownershipFilterShortcut">
+                                <span asp-validation-for="ownershipFilterShortcut" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </li>
                     <li>Maneuver Upwards in Filter Menus: 'UpArrow'</li>
                     <li>Maneuver Downwards in Filter Menus: 'DownArrow'</li>
                     <li>Go to next Book Page: 'RightArrow'</li>
@@ -40,35 +123,14 @@
                 </ul>
             </ul>
             
-        </li>
-    </ul>
-
-    <h2 class="text-xl font-semibold mt-6 mb-2">Books</h2>
-    <ul class="list-disc list-inside space-y-1 mb-4">
-        <li>
-            <div class="d-flex justify-content-start align-items-center gap-3 mb-2">
-                <p class="mb-0 me-2">Default View Option for Books</p>
-
-                
-                <i class="fas fa-table fa-2x" title="Table View" style="cursor: pointer;"></i>
-                <i class="fas fa-id-badge fa-2x" title="Card View" style="cursor: pointer;"></i>
-            </div>
-        </li>
-        <li>
-            <div class="d-flex justify-content-start align-items-center gap-3 mb-2">
-                <label for="page-size"> Default Books per page</label>
-                <select name="page-size" id="page-size">
-                    <option value=5>5</option>
-                    <option value=10>10</option>
-                    <option value=20>20</option>
-                </select>
-            </div>
+            
         </li>
     </ul>
 
     <div class="button-container">
-        <button class="btn btn-primary">Confirm Changes</button>
-        <button class="btn btn-secondary ms-2">Exit Page</button>
+        <button type="submit" class="btn btn-primary">Confirm Changes</button>
+        <a class="btn btn-secondary ms-2" asp-area="" asp-controller="Home" asp-action="Index">Exit Page</a>
     </div>
+    </form>
 </div>
 

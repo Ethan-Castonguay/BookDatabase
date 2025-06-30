@@ -334,7 +334,73 @@ namespace BookDatabase.Controllers
 
             }
 
-            return View();
+            var userId = _userManager.GetUserId(User);
+
+            var userSettings = context.userSettings.FirstOrDefault(b => b.UserId == userId);
+
+            if (userSettings == null)
+            {
+                // Either create default values or handle the missing data
+                userSettings = new UserSettings
+                {
+                    homeShortcut = 'h', // defaults
+                    booksShortcut = 'b',
+                    aboutShortcut = 'a',
+                    privacyShortcut = 'p',
+                    settingsShortcut = 's',
+                    darkModeShortcut = 'm',
+                    createBookShortcut = 'n',
+                    searchbarFocusShortcut = '/',
+                    genreFilterShortcut = 'i',
+                    ownershipFilterShortcut = 'o',
+                };
+
+                context.userSettings.Add(userSettings);
+                await context.SaveChangesAsync();
+            }
+
+            var userSettingsDto = new UserSettingsDto()
+            {
+                homeShortcut = userSettings.homeShortcut,
+                booksShortcut = userSettings.booksShortcut,
+                aboutShortcut = userSettings.aboutShortcut,
+                privacyShortcut = userSettings.privacyShortcut,
+                settingsShortcut = userSettings.settingsShortcut,
+                darkModeShortcut = userSettings.darkModeShortcut,
+                createBookShortcut = userSettings.createBookShortcut,
+                searchbarFocusShortcut = userSettings.searchbarFocusShortcut,
+                genreFilterShortcut = userSettings.genreFilterShortcut,
+                ownershipFilterShortcut = userSettings.ownershipFilterShortcut
+            };
+
+            return View(userSettingsDto);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Settings(UserSettingsDto model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userSettings = context.userSettings.FirstOrDefault(us => us.UserId == user.Id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            userSettings.homeShortcut = model.homeShortcut;
+            userSettings.booksShortcut = model.booksShortcut;
+            userSettings.aboutShortcut = model.aboutShortcut;
+            userSettings.privacyShortcut = model.privacyShortcut;
+            userSettings.settingsShortcut = model.settingsShortcut;
+            userSettings.darkModeShortcut = model.darkModeShortcut;
+            userSettings.createBookShortcut = model.createBookShortcut;
+            userSettings.searchbarFocusShortcut = model.searchbarFocusShortcut;
+            userSettings.genreFilterShortcut = model.genreFilterShortcut;
+            userSettings.ownershipFilterShortcut = model.ownershipFilterShortcut;
+
+            context.SaveChanges(true);
+
+            return RedirectToAction("Index", "Home");
+        } 
     }
 }

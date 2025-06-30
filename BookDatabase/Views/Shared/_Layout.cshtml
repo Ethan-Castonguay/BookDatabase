@@ -43,11 +43,11 @@
                         <li class="nav-item">
                             @if (User.Identity?.IsAuthenticated ?? false)
                             {
-                                <a id="books-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                                <a id="books-button" class="nav-link text-dark shiny-button" style="cursor: pointer;">Books</a>
                             }
                             else
                             {
-                                <a id="books-button" class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="LogIn">Books</a>
+                                <a id="books-failed-button"class="nav-link text-dark shiny-button" asp-area="" asp-controller="Account" asp-action="LogIn">Books</a>
                             }
                         </li>
                         <li class="nav-item">
@@ -162,6 +162,7 @@
     //a button labeled "remove pfp" should appear and when clicked simply deletes the users custom pfp and returns to the default
     const isAuthenticated = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 
+    const booksButton = document.getElementById("books-button");
     const accountMenu = document.getElementById("accountMenuButton");
     const alternateAccountMenu = document.getElementById("accountMenuAlternateButton");
     const customAccountMenu = document.getElementById("customAccountMenuButton");
@@ -169,6 +170,7 @@
     const darkModeButton = document.getElementById("darkModeToggle");
     let isRotated = false
     let menuOpen = false
+    let buttonDestination = "/Books";
 
     const loggedInDropdownMenu = document.getElementById("account-loggedin-dropdown-menu");
     const loggedOutDropdownMenu = document.getElementById("account-loggedout-dropdown-menu");
@@ -177,8 +179,14 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
+        const savedView = localStorage.getItem('view');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
+        }
+        if (savedView === 'table') {
+            buttonDestination = "/Books";
+        } else {
+            buttonDestination = "/Books/Index2";
         }
     })
 
@@ -193,7 +201,7 @@
             window.location.href = "/";
         }
         if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && isAuthenticated) {
-            window.location.href = "/Books";
+            window.location.href = buttonDestination;
         }
         if (e.key === 'b' && document.activeElement.id !== "book-searchbar" && !isAuthenticated) {
             window.location.href = "/Account/Login";
@@ -204,13 +212,17 @@
         if (e.key === 'a' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Home/About";
         }
-        if (e.key === 'd' && document.activeElement.id !== "book-searchbar") {
-            window.location.href = "/Books/Index2";
-        }
         if (e.key === 's' && document.activeElement.id !== "book-searchbar") {
             window.location.href = "/Account/Settings";
         }
     });
+
+    if (booksButton) {
+        booksButton.addEventListener("click", () => {
+            window.location.href = buttonDestination;
+        })
+    }
+    
 
     document.addEventListener("click", async (e) => {
         if (menuOpen && !e.target.classList.contains("user-menu")) {

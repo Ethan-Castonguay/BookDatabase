@@ -15,5 +15,6 @@ namespace BookDatabase.Services
 
         public DbSet<Book> Books { get; set; }
         public DbSet<PfpImg> pfpImgs { get; set; }
+        public DbSet<UserSettings> userSettings { get; set; }
     }
 }

@@ -40,7 +40,13 @@ let selectedOwnershipRadio = null;
 
 
 tableButton.addEventListener("click", () => {
+    localStorage.setItem('view', 'table');
     window.location.href = ("/Books");
+})
+
+cardViewButton.addEventListener("click", () => {
+    localStorage.setItem('view', 'card');
+    window.location.href = '/Books/Index2';
 })
 
 if (galleryItems.length > 0) {
@@ -118,9 +124,7 @@ document.addEventListener("keyup", (e) => {
     }
 })
 
-cardViewButton.addEventListener("click", () => {
-    window.location.href = '/Books/Index2';
-})
+
 
 //Hamburger menu
 genreHamburgerMenu.addEventListener("click", openGenreHamburger);
