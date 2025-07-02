@@ -300,7 +300,7 @@ function filterCards() {
     filteredCards = allCards.filter(item => { 
         const title = item.dataset.title.toLowerCase() || "";
         const author = item.dataset.author.toLowerCase() || "";
-        return (title.includes(term) || author.includes(term)) && filterOwnershipRestrictedCards.includes(item) && filterGenreRestrictedCards.includes(item);
+        return ((title.includes(term) || author.includes(term)) && filterOwnershipRestrictedCards.includes(item) && filterGenreRestrictedCards.includes(item));
     });
 
     allCards.forEach(item => item.classList.add("d-none"));
@@ -362,7 +362,7 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
             filterRows();
             updateTableDisplay();
         } else {
-            filterGenreRestricted = galleryItems.filter(item => {
+            filterGenreRestrictedCards = allCards.filter(item => {
                 return item.dataset.genre === selectedValue;
             });
             filterCards();
@@ -390,13 +390,13 @@ function filterKeyboardShortcut(num, firstOwn, lastOwn, firstGen, lastGen) {
         const selectedValue = selectedOwnershipRadio.value;
 
         if (tableBody) {
-            filterGenreRestrictedRows = allRows.filter(row => {
+            filterOwnershipRestrictedRows = allRows.filter(row => {
                 return row.dataset.status === selectedValue;
             });
             filterRows();
             updateTableDisplay();
         } else {
-            filterGenreRestrictedCards = galleryItems.filter(item => {
+            filterOwnershipRestrictedCards = allCards.filter(item => {
                 return item.dataset.status === selectedValue;
             });
             filterCards();
