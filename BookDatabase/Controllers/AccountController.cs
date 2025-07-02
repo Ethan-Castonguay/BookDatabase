@@ -353,6 +353,7 @@ namespace BookDatabase.Controllers
                     searchbarFocusShortcut = '/',
                     genreFilterShortcut = 'i',
                     ownershipFilterShortcut = 'o',
+                    changeViewShortcut = 't'
                 };
 
                 context.userSettings.Add(userSettings);
@@ -370,7 +371,8 @@ namespace BookDatabase.Controllers
                 createBookShortcut = userSettings.createBookShortcut,
                 searchbarFocusShortcut = userSettings.searchbarFocusShortcut,
                 genreFilterShortcut = userSettings.genreFilterShortcut,
-                ownershipFilterShortcut = userSettings.ownershipFilterShortcut
+                ownershipFilterShortcut = userSettings.ownershipFilterShortcut,
+                changeViewShortcut = userSettings.changeViewShortcut,
             };
 
             return View(userSettingsDto);
@@ -397,6 +399,7 @@ namespace BookDatabase.Controllers
             userSettings.searchbarFocusShortcut = model.searchbarFocusShortcut;
             userSettings.genreFilterShortcut = model.genreFilterShortcut;
             userSettings.ownershipFilterShortcut = model.ownershipFilterShortcut;
+            userSettings.changeViewShortcut = model.changeViewShortcut;
 
             context.SaveChanges(true);
 

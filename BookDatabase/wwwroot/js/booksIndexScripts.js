@@ -124,6 +124,13 @@ document.addEventListener("keyup", (e) => {
     if (e.key === shortcutMap.ownershipFilter && document.activeElement.id !== "book-searchbar") {
         openOwnershipHamburger();
     }
+    if (e.key === shortcutMap.changeView && document.activeElement.id !== "book-searchbar") {
+        if (tableBody) {
+            cardViewButton.click();
+        } else {
+            tableButton.click();
+        }
+    }
 })
 
 

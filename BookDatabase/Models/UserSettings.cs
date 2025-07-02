@@ -15,6 +15,7 @@
         public char searchbarFocusShortcut { get; set; } = '/';
         public char genreFilterShortcut { get; set; } = 'i';
         public char ownershipFilterShortcut { get; set; } = 'o';
+        public char changeViewShortcut { get; set; } = 't';
 
     }
 }

@@ -40,7 +40,8 @@ public class UserShortcutSettingsViewComponent : ViewComponent
                 createBookShortcut = settings.createBookShortcut,
                 searchbarFocusShortcut = settings.searchbarFocusShortcut,
                 genreFilterShortcut = settings.genreFilterShortcut,
-                ownershipFilterShortcut = settings.ownershipFilterShortcut
+                ownershipFilterShortcut = settings.ownershipFilterShortcut,
+                changeViewShortcut = settings.changeViewShortcut,
             };
 
         return View(dto);
