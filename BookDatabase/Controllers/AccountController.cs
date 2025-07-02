@@ -343,6 +343,7 @@ namespace BookDatabase.Controllers
                 // Either create default values or handle the missing data
                 userSettings = new UserSettings
                 {
+                    UserId = userId,
                     homeShortcut = 'h', // defaults
                     booksShortcut = 'b',
                     aboutShortcut = 'a',

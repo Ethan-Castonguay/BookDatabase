@@ -15,11 +15,8 @@
     </form>
     <form method="post">
     <ul class="list-disc list-inside space-y-1 mb-4">
-        
         <li>
             <h3 class="mb-2">Keyboard Shortcuts</h3>
-
-            
             <ul>
                 <li><h5>Usable Everywhere</h5></li>
                 <ul>
@@ -27,7 +24,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Go to Home page: </label>
                             <div class="col-sm-8">
-                                <input id="homeShortcutInput" asp-for="homeShortcut">
+                                <input type="text" id="homeShortcutInput" name="homeShortcut" value="@Model.homeShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="homeShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -36,7 +34,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Go to Books page: </label>
                             <div class="col-sm-8">
-                                <input id="booksShortcutInput" asp-for="booksShortcut">
+                                <input type="text" id="booksShortcutInput" name="booksShortcut" value="@Model.booksShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="booksShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -45,7 +44,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Go to Privacy page: </label>
                             <div class="col-sm-8">
-                                <input id="privacyShortcutInput" asp-for="privacyShortcut">
+                                <input type="text" id="privacyShortcutInput" name="privacyShortcut" value="@Model.privacyShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="privacyShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -54,7 +54,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Go to About page: </label>
                             <div class="col-sm-8">
-                                <input id="aboutShortcutInput" asp-for="aboutShortcut">
+                                <input type="text" id="aboutShortcutInput" name="aboutShortcut" value="@Model.aboutShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="aboutShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -63,7 +64,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Go to Settings page: </label>
                             <div class="col-sm-8">
-                                <input id="settingsShortcutInput" asp-for="settingsShortcut">
+                                <input type="text" id="settingsShortcutInput" name="settingsShortcut" value="@Model.settingsShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="settingsShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -72,7 +74,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Toggle Dark Mode: </label>
                             <div class="col-sm-8">
-                                <input id="darkModeShortcutInput" asp-for="darkModeShortcut">
+                                <input type="text" id="darkModeShortcutInput" name="darkModeShortcut" value="@Model.darkModeShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="darkModeShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -87,7 +90,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Create New Book: </label>
                             <div class="col-sm-8">
-                                <input id="createBookShortcutInput" asp-for="createBookShortcut">
+                                <input type="text" id="createBookShortcutInput" name="createBookShortcut" value="@Model.createBookShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="createBookShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -96,7 +100,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Focus on Searchbar: </label>
                             <div class="col-sm-8">
-                                <input id="searchbarFocusShortcutInput" asp-for="searchbarFocusShortcut">
+                                <input type="text" id="searchbarFocusShortcutInput" name="searchbarFocusShortcut" value="@Model.searchbarFocusShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="searchbarFocusShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -105,7 +110,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Open Genre Filter Dropdown Menu: </label>
                             <div class="col-sm-8">
-                                <input id="genreFilterShortcutInput" asp-for="genreFilterShortcut">
+                                <input type="text" id="genreFilterShortcutInput" name="genreFilterShortcut" value="@Model.genreFilterShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="genreFilterShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -114,7 +120,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Open Ownership Filter Dropdown Menu: </label>
                             <div class="col-sm-8">
-                                <input id="ownershipFilterShortcutInput" asp-for="ownershipFilterShortcut">
+                                <input type="text" id="ownershipFilterShortcutInput" name="ownershipFilterShortcut" value="@Model.ownershipFilterShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="ownershipFilterShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -123,7 +130,8 @@
                         <div class="row">
                             <label class="col-sm-4 col-form-label">Change View </label>
                             <div class="col-sm-8">
-                                <input id="changeViewShortcutInput" asp-for="changeViewShortcut">
+                                <input type="text" id="changeViewShortcutInput" name="changeViewShortcut" value="@Model.changeViewShortcut" readonly
+                                    maxlength="1" class="btn btn-outline-primary text-center ksInput" style="width: 2.5rem; padding: 0.25rem" />
                                 <span asp-validation-for="changeViewShortcut" class="text-danger"></span>
                             </div>
                         </div>
@@ -156,4 +164,19 @@
             document.getElementById("newUsernameForm").submit();
         }
     })
+
+    document.querySelectorAll("input.ksInput").forEach((field) => {
+        field.addEventListener("click", () => {
+            let input = ""
+            while (true) {
+                input = prompt("enter a character");
+                if (input.length == 1) {
+                    break;
+                }
+                alert("only enter 1 character");
+            }
+            field.value = input;
+        });
+    });
+
 </script>
