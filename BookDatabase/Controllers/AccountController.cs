@@ -401,6 +401,20 @@ namespace BookDatabase.Controllers
             context.SaveChanges(true);
 
             return RedirectToAction("Index", "Home");
-        } 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> changeUsername(string newUsername)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null && !string.IsNullOrWhiteSpace(newUsername))
+            {
+                user.UserName = newUsername;
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

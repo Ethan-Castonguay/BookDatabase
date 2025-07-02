@@ -241,15 +241,17 @@
 
     if (customAccountMenu) {
         customAccountMenu.addEventListener("click", async () => {
+            if (menuOpen) {
+                window.location.href = '/Account/PfpImgChange'
+            }
             if (isAuthenticated) {
                 loggedInDropdownMenu.classList.toggle('d-none');
                 menuOpen = !loggedInDropdownMenu.classList.contains('d-none');
 
                 if (menuOpen) {
                     customAccountMenu.title = "Change Profile Picture";
-                    customAccountMenu.addEventListener("click", () => {
-                        window.location.href = '/Account/PfpImgChange'
-                    })
+                } else {
+                    customAccountMenu.title = "";
                 }
 
                 const statsDropdown = document.getElementById("statsDropdown");

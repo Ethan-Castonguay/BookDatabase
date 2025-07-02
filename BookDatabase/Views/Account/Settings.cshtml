@@ -8,11 +8,14 @@
     <h1 class="text-3xl font-bold mb-4">Settings</h1>
 
     <h2 class="text-xl font-semibold mt-6 mb-2">General</h2>
+    <form id="newUsernameForm" method="post" asp-controller="Account" asp-action="changeUsername">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="newUserInput" name="newUsername" />
+        <button type="button" id="changeUsername">Change Username</button>
+    </form>
     <form method="post">
     <ul class="list-disc list-inside space-y-1 mb-4">
-        <li>
-            <button>Change Username</button>
-        </li>
+        
         <li>
             <h3 class="mb-2">Keyboard Shortcuts</h3>
 
@@ -134,3 +137,14 @@
     </form>
 </div>
 
+<script>
+    const changeUsernameButton = document.getElementById("changeUsername");
+
+    changeUsernameButton.addEventListener("click", () => {
+        let newUsername = prompt("What do you want your new Username to be?");
+        if (newUsername) {
+            document.getElementById("newUserInput").value = newUsername;
+            document.getElementById("newUsernameForm").submit();
+        }
+    })
+</script>
